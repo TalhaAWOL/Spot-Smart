@@ -85,19 +85,17 @@ import {
     }
   
     function clearRoute() {
-      // Clear navigation
+
       if (navigationIntervalRef.current) {
         cancelAnimationFrame(navigationIntervalRef.current);
         navigationIntervalRef.current = null;
       }
       
-      // Remove car marker
       if (carMarkerRef.current) {
         carMarkerRef.current.setMap(null);
         carMarkerRef.current = null;
       }
       
-      // Reset states
       setDirectionsResponse(null);
       setDistance('');
       setDuration('');
@@ -107,11 +105,9 @@ import {
       setProgress(0);
       setIsNavigating(false);
       
-      // Clear input fields
       originRef.current.value = '';
       destiantionRef.current.value = '';
       
-      // Reset map view
       if (map) {
         map.setCenter(center);
         map.setZoom(15);
@@ -137,7 +133,6 @@ import {
       const route = directionsResponse.routes[0];
       const path = route.overview_path;
     
-      // Clear any existing interval
       if (navigationIntervalRef.current) {
         clearInterval(navigationIntervalRef.current);
       }
@@ -146,7 +141,6 @@ import {
       setCurrentStepIndex(0);
       setProgress(0);
     
-      // Create or update car marker
       if (!carMarkerRef.current) {
         carMarkerRef.current = new google.maps.Marker({
           position: path[0],
@@ -176,17 +170,14 @@ import {
       let fractionalIndex = 0;
       let lastUpdateTime = performance.now();
     
-      // Function to handle the animation frame
       const animate = () => {
         const now = performance.now();
         const deltaTime = now - lastUpdateTime;
         lastUpdateTime = now;
     
-        // Calculate progress based on time for smoother movement
         fractionalIndex += (deltaTime / 1000) * pointsPerSecond;
         currentIndex = Math.min(fractionalIndex, totalPoints - 1);
     
-        // Linear interpolation between points
         const idx1 = Math.floor(currentIndex);
         const idx2 = Math.min(idx1 + 1, totalPoints - 1);
         const ratio = currentIndex - idx1;
@@ -196,16 +187,13 @@ import {
           lng: path[idx1].lng() + (path[idx2].lng() - path[idx1].lng()) * ratio
         };
     
-        // Get next point for heading calculation
         const nextIdx = Math.min(Math.floor(currentIndex) + 1, totalPoints - 1);
         const nextPoint = path[nextIdx];
     
-        // Update car position and map view
         if (carMarkerRef.current) {
           const latLng = new google.maps.LatLng(currentPoint.lat, currentPoint.lng);
           carMarkerRef.current.setPosition(latLng);
     
-          // Calculate and set heading
           if (nextPoint) {
             const heading = google.maps.geometry.spherical.computeHeading(
               latLng,
@@ -221,17 +209,14 @@ import {
             });
           }
     
-          // Smooth panning with easing and zoom adjustment
           const zoomLevel = map.getZoom();
           const targetZoom = zoomLevel > 18 ? zoomLevel : 18;
           if (zoomLevel !== targetZoom) {
             map.setZoom(targetZoom);
           }
           
-          // Use panTo with smooth transition
           map.panTo(latLng);
           
-          // Add slight tilt for better perspective
           if (map.getTilt() !== 45) {
             map.setTilt(45);
           }
@@ -240,7 +225,6 @@ import {
         setProgress(currentIndex / (totalPoints - 1));
         updateCurrentStepBasedOnPosition(currentPoint);
     
-        // Continue animation if not finished
         if (currentIndex < totalPoints - 1) {
           navigationIntervalRef.current = requestAnimationFrame(animate);
         } else {
@@ -248,7 +232,6 @@ import {
         }
       };
     
-      // Initial map setup
       map.setCenter(path[0]);
       map.setZoom(18);
       map.setTilt(45);
@@ -279,13 +262,13 @@ import {
   
     function pauseResumeNavigation() {
       if (isNavigating) {
-        // Pause navigation
+
         if (navigationIntervalRef.current) {
           clearInterval(navigationIntervalRef.current);
           navigationIntervalRef.current = null;
         }
       } else {
-        // Resume navigation
+
         if (steps.length > 0) {
           startNavigation();
         } else {
