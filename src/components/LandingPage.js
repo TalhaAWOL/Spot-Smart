@@ -1,148 +1,219 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { Box, Flex, Heading, Text, Button, Icon } from '@chakra-ui/react';
-import { FaCar } from 'react-icons/fa';
-import '@fontsource/inter';
+import { 
+  Box, 
+  Flex, 
+  Heading, 
+  Text, 
+  Button, 
+  Input, 
+  InputGroup, 
+  InputLeftElement,
+  IconButton,
+  useDisclosure,
+  SimpleGrid,
+  Stack,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useBreakpointValue
+} from '@chakra-ui/react';
+import { FaApple, FaGooglePlay, FaSearch, FaBars } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const LandingPage = () => {
-    const navigate = useNavigate();
-    const floatingElements = [
-        { id: 1, text: '<', size: '80px', color: 'rgba(255, 0, 0, 0.7)' },
-        { id: 2, text: '>', size: '60px', color: 'rgba(0, 255, 0, 0.7)' },
-        { id: 3, text: '^', size: '70px', color: 'rgba(0, 0, 255, 0.7)' },
-        { id: 4, text: '<', size: '90px', color: 'rgba(255, 255, 0, 0.7)' },
-        { id: 5, text: '>', size: '50px', color: 'rgba(255, 0, 255, 0.7)' },
-        { id: 6, text: '^', size: '65px', color: 'rgba(0, 255, 255, 0.7)' },
-        { id: 7, text: '<', size: '75px', color: 'rgba(255, 165, 0, 0.7)' },
-        { id: 8, text: '>', size: '85px', color: 'rgba(128, 0, 128, 0.7)' },
-        { id: 9, text: '^', size: '85px', color: 'rgba(128, 0, 128, 0.7)' },
-        { id: 10, text: '<', size: '85px', color: 'rgba(128, 0, 128, 0.7)' },
-        { id: 11, text: '>', size: '85px', color: 'rgba(128, 0, 128, 0.7)' },
-        { id: 12, text: '^', size: '50px', color: 'rgba(255, 0, 255, 0.7)' },
-        { id: 13, text: '>', size: '50px', color: 'rgba(255, 0, 255, 0.7)' },
-        { id: 14, text: '>', size: '50px', color: 'rgba(255, 0, 255, 0.7)' }
-    ];
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
-  const floatVariants = {
-    initial: {
-      y: 0,
-      x: 0,
-      rotate: 0
-    },
-    animate: (i) => ({
-      y: [0, -100, 100, 0],
-      x: [0, 100, -100, 0],
-      rotate: [0, 180, 360],
-      transition: {
-        duration: 20 + Math.random() * 20,
-        repeat: Infinity,
-        repeatType: 'reverse',
-        ease: 'linear',
-        delay: i * 2
-      }
-    })
-  };
+  const parkingSpots = [
+    { address: "115 N. Michigan Ave.", price: "$49.04" },
+    { address: "200 E Randolph St", price: "$42.50" },
+    { address: "300 N State St", price: "$38.75" },
+    { address: "500 W Madison St", price: "$45.00" },
+  ];
+
+  const NavBar = () => (
+    <Flex
+      bg="rgba(255, 255, 255, 0.8)"
+      p={4}
+      boxShadow="md"
+      position="fixed"
+      width="100%"
+      top={0}
+      zIndex={1000}
+      backdropFilter="blur(5px)"
+    >
+      <Flex flex={1} justify="space-between" align="center">
+        {!isMobile && (
+          <Flex gap={6}>
+            <Link to="/">Home</Link>
+            <Link to="/app">Navigate</Link>
+            <Link to="/vehicle">Vehicle</Link>
+          </Flex>
+        )}
+        
+        <Flex gap={6} ml="auto">
+          <Text>Our Apps</Text>
+          <Text>Help</Text>
+          <Text>Sign In</Text>
+        </Flex>
+
+        {isMobile && (
+          <IconButton
+            icon={<FaBars />}
+            onClick={onOpen}
+            ml="auto"
+            aria-label="Open menu"
+            variant="ghost"
+          />
+        )}
+      </Flex>
+    </Flex>
+  );
+
+  const MobileMenu = () => (
+    <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+      <DrawerOverlay>
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Menu</DrawerHeader>
+          <DrawerBody>
+            <Stack spacing={4}>
+              <Link to="/" onClick={onClose}>Home</Link>
+              <Link to="/app" onClick={onClose}>Navigate</Link>
+              <Link to="/vehicle" onClick={onClose}>Vehicle</Link>
+            </Stack>
+          </DrawerBody>
+        </DrawerContent>
+      </DrawerOverlay>
+    </Drawer>
+  );
 
   return (
-    <Box
-        position="relative"
-        width="100vw"
-        height="100vh"
+    <Box position="relative" minH="100vh" overflow="hidden">
+      <Box
+        position="absolute"
+        top={0}
+        left={0}
+        width="100%"
+        height="100%"
+        zIndex={0}
         overflow="hidden"
-        bg="white"
-        color="black"
-        fontFamily="Roboto, sans-serif"
-    >
-      {floatingElements.map((element, i) => (
-        <motion.div
-          key={element.id}
+      >
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
           style={{
-            position: 'absolute',
-            top: `${Math.random() * 80 + 10}%`,
-            left: `${Math.random() * 80 + 10}%`,
-            fontSize: element.size,
-            color: element.color,
-            fontWeight: 'bold',
-            zIndex: 1
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            opacity: 0.7
           }}
-          variants={floatVariants}
-          initial="initial"
-          animate="animate"
-          custom={i}
         >
-          {element.text}
-        </motion.div>
-      ))}
+          <source src="carsNight.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <Box
+          position="absolute"
+          top={0}
+          left={0}
+          width="100%"
+          height="100%"
+          bg="rgba(0, 0, 0, 0.3)"
+        />
+      </Box>
 
-<Flex
-                position="absolute"
-                width="100%"
-                height="100%"
-                alignItems="center"
-                justifyContent="center"
-                flexDirection="column"
-                zIndex="2"
-                textAlign="center"
-                px={4}
+      <Box position="relative" zIndex={1}>
+        <NavBar />
+        <MobileMenu />
+
+        <Flex
+          direction="column"
+          align="center"
+          justify="center"
+          minH="100vh"
+          pt={20}
+          px={4}
+        >
+          <Heading fontSize="4xl" textAlign="center" mb={4} color="white" textShadow="0 2px 4px rgba(0,0,0,0.5)">
+            PARKING JUST GOT A LOT SIMPLER
+          </Heading>
+          
+          <Text fontSize="xl" color="white" mb={8} textShadow="0 1px 3px rgba(0,0,0,0.5)">
+            Book the Best Spaces for FREE!
+          </Text>
+
+          <InputGroup maxW="600px" mb={8}>
+            <InputLeftElement pointerEvents="none">
+              <FaSearch color="gray.500" />
+            </InputLeftElement>
+            <Input 
+              placeholder="Search Address, Place or Event" 
+              size="lg"
+              borderRadius="full"
+              bg="rgba(255, 255, 255, 0.9)"
+              _focus={{
+                bg: "white"
+              }}
+            />
+          </InputGroup>
+
+          <Flex gap={4} mb={12}>
+            <Button 
+              leftIcon={<FaApple />} 
+              colorScheme="blackAlpha"
+              bg="rgba(0, 0, 0, 0.7)"
+              _hover={{ bg: "rgba(0, 0, 0, 0.9)" }}
             >
-                <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1 }}
-                >
-                    {/* Added Car Icon */}
-                    <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                    >
-                        <Icon
-                            as={FaCar}
-                            w={20}
-                            h={20}
-                            color="yellow.500"
-                            mb={8}
-                            _hover={{
-                                transform: 'translateY(-5px)',
-                                transition: 'transform 0.3s ease'
-                            }}
-                        />
-                    </motion.div>
+              App Store
+            </Button>
+            <Button 
+              leftIcon={<FaGooglePlay />} 
+              colorScheme="blackAlpha"
+              bg="rgba(0, 0, 0, 0.7)"
+              _hover={{ bg: "rgba(0, 0, 0, 0.9)" }}
+            >
+              Google Play
+            </Button>
+          </Flex>
 
-                    <Heading 
-                        fontSize={["5xl", "6xl", "7xl"]} 
-                        color="yellow.500"
-                        fontWeight="300"
-                        fontFamily="Roboto"
-                        letterSpacing="0.1em"
-                        mb={6}
-                    >
-                        SHERIDAN SPOT SMART
-                    </Heading>
-                    
-                    <Button 
-                        onClick={() => navigate('/vehicle')}
-                        colorScheme="yellow" 
-                        size="lg"
-                        px={12}
-                        py={6}
-                        borderRadius="full"
-                        boxShadow="xl"
-                        _hover={{
-                            transform: 'translateY(-2px)',
-                            boxShadow: '2xl',
-                        }}
-                        transition="all 0.3s ease"
-                        fontWeight="300"
-                        letterSpacing="0.1em"
-                    >
-                        GET STARTED
-                    </Button>
-                </motion.div>
-            </Flex>
-        </Box>
-    );
+          {/* <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8} mb={16} w="100%" maxW="1200px">
+            {parkingSpots.map((spot, index) => (
+              <Box 
+                key={index} 
+                bg="rgba(255, 255, 255, 0.9)"
+                p={6} 
+                borderRadius="xl" 
+                boxShadow="lg"
+                _hover={{
+                  transform: "translateY(-5px)",
+                  transition: "transform 0.3s ease"
+                }}
+              >
+                <Text fontWeight="bold" mb={2}>{spot.address}</Text>
+                <Text fontSize="2xl" color="yellow.500" mb={4}>{spot.price} today</Text>
+                <Button colorScheme="yellow" w="100%">Book Now</Button>
+              </Box>
+            ))}
+          </SimpleGrid> */}
+
+          <Box textAlign="center" mb={16} color="white" textShadow="0 1px 3px rgba(0,0,0,0.5)">
+            <Heading fontSize="2xl" mb={4}>
+              DISCOVER AMAZING SPACES
+            </Heading>
+            <Text mb={6}>
+              Find parking anywhere, for now or for later<br />
+              Compare prices & pick the place that's best for you
+            </Text>
+          </Box>
+        </Flex>
+      </Box>
+    </Box>
+  );
 };
 
 export default LandingPage;

@@ -1422,7 +1422,7 @@
   dependencies:
     "@chakra-ui/utils" "^1.10.4"
 
-"@chakra-ui/react@^1.8.6":
+"@chakra-ui/react@^1.8.9":
   version "1.8.9"
   resolved "https://registry.npmjs.org/@chakra-ui/react/-/react-1.8.9.tgz"
   integrity sha512-NfR5XKVqEWhchFLiWaTWkWeYZJK1SNF2O6sQxFVrX6M+nAgJ3Q9tfMk6/I3II+xc4hXJUcYmUvmw37vT92yMaQ==
