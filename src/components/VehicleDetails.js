@@ -1,7 +1,17 @@
-import { Flex, Heading, Button, VStack, FormControl, Input, ButtonGroup, Box } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import '@fontsource/roboto';
+import {
+  Flex,
+  Heading,
+  Button,
+  VStack,
+  FormControl,
+  Input,
+  ButtonGroup,
+  Box,
+} from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import Navbar from "../components/Navbar";
+import "@fontsource/roboto";
 
 const MotionBox = motion(Box);
 
@@ -9,10 +19,10 @@ const VehicleDetails = () => {
   const navigate = useNavigate();
 
   const shapes = [
-    { id: 1, size: '100px', initialY: 25, offset: 30 },
-    { id: 2, size: '150px', initialY: 35, offset: 40 },
-    { id: 3, size: '70px', initialY: 75, offset: 25 },
-    { id: 4, size: '120px', initialY: 65, offset: 35 },
+    { id: 1, size: "100px", initialY: 25, offset: 30 },
+    { id: 2, size: "150px", initialY: 35, offset: 40 },
+    { id: 3, size: "70px", initialY: 75, offset: 25 },
+    { id: 4, size: "120px", initialY: 65, offset: 35 },
   ];
 
   return (
@@ -21,9 +31,10 @@ const VehicleDetails = () => {
       height="100vh"
       alignItems="center"
       justifyContent="center"
-      bg="white"
+      bg="gray.800"
       overflow="hidden"
     >
+      <Navbar color="white" />
       {shapes.map((shape) => (
         <MotionBox
           key={shape.id}
@@ -33,25 +44,25 @@ const VehicleDetails = () => {
           bg="yellow.500"
           opacity={0.1}
           borderRadius="full"
-          initial={{ 
+          initial={{
             y: `${shape.initialY}%`,
-            x: `${Math.random() * 80 + 10}%` 
+            x: `${Math.random() * 80 + 10}%`,
           }}
           animate={{
-            y: `${shape.initialY + shape.offset}%`
+            y: `${shape.initialY + shape.offset}%`,
           }}
           transition={{
             duration: 8,
             delay: shape.id * 0.3,
             repeat: Infinity,
-            repeatType: 'reverse',
-            ease: 'easeInOut'
+            repeatType: "reverse",
+            ease: "easeInOut",
           }}
         />
       ))}
 
-      <VStack 
-        spacing={6} 
+      <VStack
+        spacing={6}
         w={["90%", "md"]}
         zIndex="1"
         bg="white"
@@ -60,8 +71,8 @@ const VehicleDetails = () => {
         boxShadow="xl"
       >
         <VStack spacing={2}>
-          <Heading 
-            fontSize="3xl" 
+          <Heading
+            fontSize="3xl"
             color="yellow.500"
             fontWeight="300"
             fontFamily="Roboto"
@@ -69,8 +80,8 @@ const VehicleDetails = () => {
           >
             PLEASE ENTER
           </Heading>
-          <Heading 
-            fontSize="3xl" 
+          <Heading
+            fontSize="3xl"
             color="yellow.500"
             fontWeight="300"
             fontFamily="Roboto"
@@ -78,8 +89,8 @@ const VehicleDetails = () => {
           >
             SOME DETAILS
           </Heading>
-          <Heading 
-            fontSize="3xl" 
+          <Heading
+            fontSize="3xl"
             color="yellow.500"
             fontWeight="300"
             fontFamily="Roboto"
@@ -87,8 +98,8 @@ const VehicleDetails = () => {
           >
             ABOUT YOUR
           </Heading>
-          <Heading 
-            fontSize="3xl" 
+          <Heading
+            fontSize="3xl"
             color="yellow.500"
             fontWeight="300"
             fontFamily="Roboto"
@@ -100,42 +111,42 @@ const VehicleDetails = () => {
 
         <FormControl>
           <VStack spacing={4}>
-            <Input 
-              placeholder="Vehicle Type" 
-              size="lg" 
+            <Input
+              placeholder="Vehicle Type"
+              size="lg"
               borderRadius="full"
               borderColor="gray.200"
               _focus={{
                 borderColor: "yellow.500",
-                boxShadow: "0 0 0 1px #D69E2E"
+                boxShadow: "0 0 0 1px #D69E2E",
               }}
             />
-            <Input 
-              placeholder="License Plate" 
-              size="lg" 
+            <Input
+              placeholder="License Plate"
+              size="lg"
               borderRadius="full"
               borderColor="gray.200"
               _focus={{
                 borderColor: "yellow.500",
-                boxShadow: "0 0 0 1px #D69E2E"
+                boxShadow: "0 0 0 1px #D69E2E",
               }}
             />
-            <Input 
-              placeholder="Vehicle Color" 
-              size="lg" 
+            <Input
+              placeholder="Vehicle Color"
+              size="lg"
               borderRadius="full"
               borderColor="gray.200"
               _focus={{
                 borderColor: "yellow.500",
-                boxShadow: "0 0 0 1px #D69E2E"
+                boxShadow: "0 0 0 1px #D69E2E",
               }}
             />
           </VStack>
         </FormControl>
 
         <ButtonGroup spacing={4}>
-          <Button 
-            onClick={() => navigate('/app')}
+          <Button
+            onClick={() => navigate("/app")}
             colorScheme="yellow"
             variant="outline"
             size="lg"
@@ -144,13 +155,13 @@ const VehicleDetails = () => {
             fontWeight="300"
             letterSpacing="0.05em"
             _hover={{
-              bg: "yellow.50"
+              bg: "yellow.50",
             }}
           >
             SKIP
           </Button>
-          <Button 
-            onClick={() => navigate('/app')}
+          <Button
+            onClick={() => navigate("/app")}
             colorScheme="yellow"
             size="lg"
             px={8}
@@ -158,8 +169,8 @@ const VehicleDetails = () => {
             fontWeight="300"
             letterSpacing="0.05em"
             _hover={{
-              transform: 'translateY(-2px)',
-              boxShadow: 'lg',
+              transform: "translateY(-2px)",
+              boxShadow: "lg",
             }}
           >
             NEXT
