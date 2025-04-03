@@ -122,7 +122,7 @@ const LandingPage = () => {
                     </Heading>
                     
                     <Button 
-                        onClick={() => navigate('/vehicle')}
+                        onClick={() => navigate('/auth')}
                         colorScheme="yellow" 
                         size="lg"
                         px={12}

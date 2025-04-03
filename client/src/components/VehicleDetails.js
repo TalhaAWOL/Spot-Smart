@@ -1,12 +1,69 @@
-import { Flex, Heading, Button, VStack, FormControl, Input, ButtonGroup, Box } from '@chakra-ui/react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { 
+  Flex, 
+  Heading, 
+  Button, 
+  VStack, 
+  FormControl, 
+  Input, 
+  ButtonGroup, 
+  Box,
+  useToast
+} from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import '@fontsource/roboto';
+import { useAuth } from './AuthContext';
 
 const MotionBox = motion(Box);
 
 const VehicleDetails = () => {
+  const { user, updateVehicleDetails } = useAuth();
   const navigate = useNavigate();
+  const toast = useToast();
+  const [formData, setFormData] = useState({
+    vehicleType: '',
+    licensePlate: '',
+    vehicleColor: ''
+  });
+
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        vehicleType: user.vehicleType || '',
+        licensePlate: user.licensePlate || '',
+        vehicleColor: user.vehicleColor || ''
+      });
+    }
+  }, [user]);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const result = await updateVehicleDetails(formData);
+    if (result.success) {
+      toast({
+        title: 'Vehicle details updated',
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      });
+      navigate('/app');
+    } else {
+      toast({
+        title: 'Error',
+        description: result.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
 
   const shapes = [
     { id: 1, size: '100px', initialY: 25, offset: 30 },
@@ -58,6 +115,8 @@ const VehicleDetails = () => {
         p={8}
         borderRadius="xl"
         boxShadow="xl"
+        as="form"
+        onSubmit={handleSubmit}
       >
         <VStack spacing={2}>
           <Heading 
@@ -101,7 +160,10 @@ const VehicleDetails = () => {
         <FormControl>
           <VStack spacing={4}>
             <Input 
+              name="vehicleType"
               placeholder="Vehicle Type" 
+              value={formData.vehicleType}
+              onChange={handleChange}
               size="lg" 
               borderRadius="full"
               borderColor="gray.200"
@@ -111,7 +173,10 @@ const VehicleDetails = () => {
               }}
             />
             <Input 
+              name="licensePlate"
               placeholder="License Plate" 
+              value={formData.licensePlate}
+              onChange={handleChange}
               size="lg" 
               borderRadius="full"
               borderColor="gray.200"
@@ -121,7 +186,10 @@ const VehicleDetails = () => {
               }}
             />
             <Input 
+              name="vehicleColor"
               placeholder="Vehicle Color" 
+              value={formData.vehicleColor}
+              onChange={handleChange}
               size="lg" 
               borderRadius="full"
               borderColor="gray.200"
@@ -150,7 +218,7 @@ const VehicleDetails = () => {
             SKIP
           </Button>
           <Button 
-            onClick={() => navigate('/app')}
+            type="submit"
             colorScheme="yellow"
             size="lg"
             px={8}
