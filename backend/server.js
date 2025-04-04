@@ -36,6 +36,10 @@ const UserSchema = new mongoose.Schema({
   vehicleType: { type: String, default: '' },
   licensePlate: { type: String, default: '' },
   vehicleColor: { type: String, default: '' },
+  searchHistory: {
+    origins: { type: [String], default: [] },
+    destinations: { type: [String], default: [] }
+  },
   createdAt: { type: Date, default: Date.now }
 });
 
@@ -173,6 +177,57 @@ app.put('/api/user/vehicle', async (req, res) => {
     ).select('-password');
 
     res.json(updatedUser);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Save search location
+app.post('/api/search/save', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(401).json({ message: 'No token provided' });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const { origin, destination } = req.body;
+
+    // Update user's search history (keeping only last 5 entries)
+    const user = await User.findById(decoded.id);
+    
+    if (origin && origin !== "Current Location") {
+      user.searchHistory.origins = [
+        origin,
+        ...user.searchHistory.origins.filter(item => item !== origin)
+      ].slice(0, 5);
+    }
+
+    if (destination) {
+      user.searchHistory.destinations = [
+        destination,
+        ...user.searchHistory.destinations.filter(item => item !== destination)
+      ].slice(0, 5);
+    }
+
+    await user.save();
+    res.json({ message: 'Search history updated' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Get search history
+app.get('/api/search/history', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(401).json({ message: 'No token provided' });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id).select('searchHistory');
+
+    res.json({
+      origins: ["Current Location", ...user.searchHistory.origins],
+      destinations: user.searchHistory.destinations
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

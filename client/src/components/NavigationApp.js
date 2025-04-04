@@ -21,7 +21,7 @@ import {
     Autocomplete,
     DirectionsRenderer,
   } from '@react-google-maps/api'
-  import { useRef, useState } from 'react'
+  import { useRef, useState, useEffect } from 'react'
   
   const center = { lat: 48.8584, lng: 2.2945 }
   
@@ -46,25 +46,109 @@ import {
     const carMarkerRef = useRef(null);
     const currentPositionRef = useRef(null);
   
+    const [center, setCenter] = useState(null) 
+    const [currentLocation, setCurrentLocation] = useState(null)
+    const [searchHistory, setSearchHistory] = useState({
+      origins: ["Current Location"],
+      destinations: []
+    });
+    
   
   
     /** @type React.MutableRefObject<HTMLInputElement> */
     const originRef = useRef()
     /** @type React.MutableRefObject<HTMLInputElement> */
     const destiantionRef = useRef()
+
+    useEffect(() => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            setCenter(pos);
+            setCurrentLocation(pos);
+            if (originRef.current) {
+              originRef.current.value = "Current Location";
+            }
+          },
+          () => {
+            // Default to Eiffel Tower if geolocation fails
+            const defaultPos = { lat: 48.8584, lng: 2.2945 };
+            setCenter(defaultPos);
+            setCurrentLocation(defaultPos);
+          }
+        );
+      } else {
+        // Browser doesn't support Geolocation
+        const defaultPos = { lat: 48.8584, lng: 2.2945 };
+        setCenter(defaultPos);
+        setCurrentLocation(defaultPos);
+      }
+    }, []);
+
+    useEffect(() => {
+      const loadSearchHistory = async () => {
+        try {
+          const token = localStorage.getItem('token');
+          const response = await fetch('/api/search/history', {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          const data = await response.json();
+          setSearchHistory(data);
+        } catch (err) {
+          console.error('Failed to load search history:', err);
+        }
+      };
+    
+      loadSearchHistory();
+    }, []);
   
-    if (!isLoaded) {
+    if (!isLoaded || !center) {
       return <SkeletonText />
+    }
+
+    function centerMap() {
+      if (map && currentLocation) {
+        map.panTo(currentLocation);
+        map.setZoom(15);
+      }
     }
   
     async function calculateRoute() {
       if (originRef.current.value === '' || destiantionRef.current.value === '') {
         return
       }
+
+      try {
+        // First save the search to history
+        const token = localStorage.getItem('token');
+        await fetch('/api/search/save', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            origin: originRef.current.value,
+            destination: destiantionRef.current.value
+          })
+        });
+
+      // Replace "Current Location" with actual coordinates
+      let origin = originRef.current.value;
+      if (origin === "Current Location" && currentLocation) {
+        origin = `${currentLocation.lat},${currentLocation.lng}`;
+      }
+
       // eslint-disable-next-line no-undef
       const directionsService = new google.maps.DirectionsService()
       const results = await directionsService.route({
-        origin: originRef.current.value,
+        origin: origin,
         destination: destiantionRef.current.value,
         // eslint-disable-next-line no-undef
         travelMode: google.maps.TravelMode.DRIVING,
@@ -82,7 +166,10 @@ import {
       setSteps(routeSteps)
       setCurrentStepIndex(0)
       setShowSteps(false)
+    }catch (err) {
+      console.error('Failed to save search history:', err);
     }
+  }
   
     function clearRoute() {
 
@@ -323,13 +410,50 @@ import {
             }}
             onLoad={map => setMap(map)}
           >
-            <Marker position={center} />
+            {currentLocation && (
+              <Marker 
+                position={currentLocation}
+                icon={{
+                  path: google.maps.SymbolPath.CIRCLE,
+                  scale: 7,
+                  fillColor: '#4285F4',
+                  fillOpacity: 1,
+                  strokeWeight: 2,
+                  strokeColor: 'white',
+                }}
+              />
+            )}
+
             {directionsResponse && (
-              <DirectionsRenderer directions={directionsResponse} />
+              <>
+                <DirectionsRenderer directions={directionsResponse} />
+                <Marker
+                  position={{
+                    lat: directionsResponse.routes[0].legs[0].end_location.lat(),
+                    lng: directionsResponse.routes[0].legs[0].end_location.lng()
+                  }}
+                  icon={{
+                    url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+                    scaledSize: new google.maps.Size(32, 32)
+                  }}
+                />
+              </>
             )}
           </GoogleMap>
         </Box>
   
+        <IconButton
+          aria-label="Center on current location"
+          icon={<FaLocationArrow />}
+          position="absolute"
+          bottom={75}
+          right={2}
+          zIndex="1"
+          onClick={centerMap}
+          colorScheme="yellow"
+          isRound
+        />    
+
         <Box
           p={4}
           borderRadius='lg'
@@ -340,20 +464,37 @@ import {
           zIndex='1'
         >
           <HStack spacing={2} justifyContent='space-between'>
-            <Box flexGrow={1}>
-              <Autocomplete>
-                <Input type='text' placeholder='Origin' ref={originRef} />
-              </Autocomplete>
-            </Box>
-            <Box flexGrow={1}>
-              <Autocomplete>
-                <Input
-                  type='text'
-                  placeholder='Destination'
-                  ref={destiantionRef}
-                />
-              </Autocomplete>
-            </Box>
+          <Box flexGrow={1}>
+            <Autocomplete>
+              <Input 
+                type='text' 
+                placeholder='Origin' 
+                ref={originRef}
+                list='origin-history'
+              />
+            </Autocomplete>
+            <datalist id='origin-history'>
+              {searchHistory.origins.map((item, index) => (
+                <option key={`origin-${index}`} value={item} />
+              ))}
+            </datalist>
+          </Box>
+
+          <Box flexGrow={1}>
+            <Autocomplete>
+              <Input 
+                type='text' 
+                placeholder='Destination' 
+                ref={destiantionRef}
+                list='destination-history'
+              />
+            </Autocomplete>
+            <datalist id='destination-history'>
+              {searchHistory.destinations.map((item, index) => (
+                <option key={`destination-${index}`} value={item} />
+              ))}
+            </datalist>
+          </Box>
   
             <ButtonGroup>
               <Button colorScheme='yellow' type='submit' onClick={calculateRoute}>
