@@ -9,6 +9,10 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  const isAuthenticated = () => {
+    return !!user; // or more sophisticated authentication check
+  };
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -92,7 +96,8 @@ export const AuthProvider = ({ children }) => {
         signUp,
         signIn,
         signOut,
-        updateVehicleDetails
+        updateVehicleDetails,
+        isAuthenticated
       }}
     >
       {children}

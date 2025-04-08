@@ -52,9 +52,7 @@ const Navbar = ({ color = "yellow.500" }) => {
             </Flex>
           )}
 
-          <Flex gap={6} ml="auto">
-            <Text>Sign In</Text>
-          </Flex>
+          
 
           {isMobile && (
             <IconButton
