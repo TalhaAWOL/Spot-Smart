@@ -22,6 +22,7 @@ import {
     DirectionsRenderer,
   } from '@react-google-maps/api'
   import { useRef, useState, useEffect } from 'react'
+  import Navbar from "../components/Navbar";
   
   const center = { lat: 48.8584, lng: 2.2945 }
   
@@ -374,30 +375,12 @@ import {
         h='100vh'
         w='100vw'
       >
-        <Flex
-          position='absolute'
-          top={4}
-          left={4}
-          right={4}
-          justifyContent='space-between'
-          zIndex='1'
-          pointerEvents='none' 
-        >
-          <VStack 
-            alignItems='flex-start'
-            bg='whiteAlpha.800'
-            p={3}
-            borderRadius='md'
-            spacing={0}
-          >
-            <Heading as="h1" size="lg" color={"yellow.500"} lineHeight="1">Sheridan</Heading>
-            <Heading as="h1" size="lg" color={"yellow.500"} lineHeight="1">Spot</Heading>
-            <Heading as="h1" size="lg" color={"yellow.500"} lineHeight="1">Smart</Heading>
-          </VStack>
-            <Heading as="h1" size="lg" color={"yellow.500"} lineHeight="1">AIM-IT</Heading>
-        </Flex>
+        <Box position="absolute" top={0} left={0} right={0} zIndex={10}>
+        <Navbar color="black"/>
+        </Box>
+
   
-        <Box position='absolute' left={0} top={0} h='100%' w='100%'>
+        <Box h="100vh" w="100vw">
           <GoogleMap
             center={center}
             zoom={15}
