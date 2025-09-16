@@ -54,13 +54,33 @@ def detect_parking():
             return jsonify({'error': 'No image path provided'}), 400
         
         image_path = data['image_path']
+        
+        # Sanitize image_path to prevent path traversal attacks
+        image_path = os.path.basename(image_path)  # Remove any directory paths
+        if not image_path or image_path.startswith('.'):
+            return jsonify({'error': 'Invalid image path'}), 400
+            
         full_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image_path)
+        
+        # Ensure the resolved path is within the upload directory
+        upload_dir = os.path.abspath(current_app.config['UPLOAD_FOLDER'])
+        resolved_path = os.path.abspath(full_path)
+        if not resolved_path.startswith(upload_dir):
+            return jsonify({'error': 'Access denied'}), 403
         
         if not os.path.exists(full_path):
             return jsonify({'error': 'Image file not found'}), 404
         
         # Perform parking detection
-        results = detector.detect_parking_spaces(full_path)
+        results = detector.detect_parking_spaces(resolved_path)
+        
+        # Check if detection failed
+        if 'error' in results:
+            return jsonify({
+                'success': False,
+                'error': results['error'],
+                'message': 'Parking detection failed'
+            }), 422
         
         return jsonify({
             'success': True,

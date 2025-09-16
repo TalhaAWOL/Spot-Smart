@@ -25,43 +25,50 @@ class ParkingDetector:
     
     def _get_default_spots(self) -> List[Dict]:
         """
-        Default parking spots for the sample parking lot image
-        These coordinates are estimated based on the provided parking lot image
+        Default parking spots for the sample parking lot image (614x408 pixels)
+        These coordinates are estimated based on the provided parking lot image dimensions
         """
         spots = []
         
-        # Top row of parking spots (approximate coordinates for the sample image)
-        top_row_y = 50
-        spot_width = 80
-        spot_height = 120
+        # Image dimensions: 614 width x 408 height
+        # Adjust spot dimensions to fit within image bounds
+        spot_width = 55  # Reduced to fit more spots horizontally
+        spot_height = 80  # Reduced to fit within image height
         
-        for i in range(15):  # Assuming 15 spots in top row
-            x = 30 + i * (spot_width + 10)
-            spots.append({
-                'id': f'top_{i+1}',
-                'coordinates': [x, top_row_y, spot_width, spot_height],
-                'row': 'top'
-            })
+        # Top row of parking spots
+        top_row_y = 30
+        spots_per_row = 10  # Fit 10 spots in 614px width
+        
+        for i in range(spots_per_row):
+            x = 20 + i * (spot_width + 5)  # 5px spacing between spots
+            if x + spot_width < 614:  # Ensure spot fits within image width
+                spots.append({
+                    'id': f'top_{i+1}',
+                    'coordinates': [x, top_row_y, spot_width, spot_height],
+                    'row': 'top'
+                })
         
         # Middle row
-        middle_row_y = 200
-        for i in range(15):
-            x = 30 + i * (spot_width + 10)
-            spots.append({
-                'id': f'middle_{i+1}',
-                'coordinates': [x, middle_row_y, spot_width, spot_height],
-                'row': 'middle'
-            })
+        middle_row_y = 140
+        for i in range(spots_per_row):
+            x = 20 + i * (spot_width + 5)
+            if x + spot_width < 614:
+                spots.append({
+                    'id': f'middle_{i+1}',
+                    'coordinates': [x, middle_row_y, spot_width, spot_height],
+                    'row': 'middle'
+                })
         
         # Bottom row
-        bottom_row_y = 350
-        for i in range(15):
-            x = 30 + i * (spot_width + 10)
-            spots.append({
-                'id': f'bottom_{i+1}',
-                'coordinates': [x, bottom_row_y, spot_width, spot_height],
-                'row': 'bottom'
-            })
+        bottom_row_y = 250
+        for i in range(spots_per_row):
+            x = 20 + i * (spot_width + 5)
+            if x + spot_width < 614:
+                spots.append({
+                    'id': f'bottom_{i+1}',
+                    'coordinates': [x, bottom_row_y, spot_width, spot_height],
+                    'row': 'bottom'
+                })
         
         return spots
     
@@ -104,7 +111,7 @@ class ParkingDetector:
                 'occupancy_rate': round(occupancy_rate, 2),
                 'spots': results['spots'],
                 'detection_confidence': results['confidence'],
-                'analysis_method': 'opencv_background_subtraction'
+                'analysis_method': 'opencv_multi_feature_analysis'
             }
             
         except Exception as e:
@@ -148,10 +155,51 @@ class ParkingDetector:
         # Extract spot coordinates
         x, y, w, h = spot['coordinates']
         
+        # Validate coordinates are within image bounds
+        img_height, img_width = gray.shape
+        x = max(0, min(x, img_width - 1))
+        y = max(0, min(y, img_height - 1))
+        w = min(w, img_width - x)
+        h = min(h, img_height - y)
+        
+        # Ensure we have a valid region
+        if w <= 0 or h <= 0:
+            return {
+                'id': spot['id'],
+                'coordinates': spot['coordinates'],
+                'occupied': False,
+                'confidence': 0.0,
+                'metrics': {
+                    'edge_density': 0.0,
+                    'color_variance': 0.0,
+                    'avg_brightness': 0.0,
+                    'contour_count': 0,
+                    'combined_score': 0.0
+                },
+                'detection_factors': ['invalid_coordinates']
+            }
+        
         # Extract the region of interest (ROI)
         roi_gray = gray[y:y+h, x:x+w]
         roi_hsv = hsv[y:y+h, x:x+w]
         roi_bgr = image[y:y+h, x:x+w]
+        
+        # Check if ROI is empty
+        if roi_gray.size == 0:
+            return {
+                'id': spot['id'],
+                'coordinates': spot['coordinates'],
+                'occupied': False,
+                'confidence': 0.0,
+                'metrics': {
+                    'edge_density': 0.0,
+                    'color_variance': 0.0,
+                    'avg_brightness': 0.0,
+                    'contour_count': 0,
+                    'combined_score': 0.0
+                },
+                'detection_factors': ['empty_roi']
+            }
         
         # Method 1: Edge detection (cars have more edges than empty asphalt)
         edges = cv2.Canny(roi_gray, 50, 150)
