@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import json
 import os
-from typing import Dict, List, Tuple, Any
+from typing import Dict, List, Tuple, Any, Optional
 
 class ParkingDetector:
     """
@@ -216,7 +216,7 @@ class ParkingDetector:
         }
     
     def create_annotated_image(self, image_path: str, detection_results: Dict, 
-                             output_path: str = None) -> str:
+                             output_path: Optional[str] = None) -> str:
         """
         Create an annotated image showing detected parking spots
         """
