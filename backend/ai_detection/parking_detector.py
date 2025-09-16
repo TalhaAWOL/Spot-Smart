@@ -208,35 +208,62 @@ class ParkingDetector:
         
         # Method 4: Contour detection
         contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        contour_count = len([c for c in contours if cv2.contourArea(c) > 100])
+        contour_count = len([c for c in contours if cv2.contourArea(c) > 50])  # Lower threshold
+        
+        # Method 5: Texture analysis using standard deviation
+        texture_std = np.std(roi_gray)
         
         # Combine metrics to determine occupancy
-        # These thresholds may need tuning based on actual images
+        # More sensitive thresholds to catch subtle cars
         occupied = False
         confidence = 0.0
         
-        # Scoring system
+        # Scoring system - more sensitive to detect occupied spots
         score = 0
         factors = []
         
-        if edge_density > 0.05:  # High edge density suggests a car
+        # More sensitive edge detection
+        if edge_density > 0.02:  # Lowered from 0.05
+            score += 0.35
+            factors.append('edge_detection')
+        
+        # More sensitive color variance
+        if color_variance > 200:  # Lowered from 500
             score += 0.3
-            factors.append('high_edge_density')
+            factors.append('color_variation')
         
-        if color_variance > 500:  # High color variance suggests a car
+        # Brightness analysis - cars cast shadows or have different reflectance
+        if avg_brightness < 120:  # Increased threshold for shadows
             score += 0.25
-            factors.append('high_color_variance')
+            factors.append('shadow_detected')
+        elif avg_brightness > 140:  # Very bright spots might be car roofs
+            score += 0.15
+            factors.append('bright_surface')
         
-        if avg_brightness < 100:  # Darker areas might indicate car shadows
+        # Contour detection - any significant shapes suggest cars
+        if contour_count > 1:  # Lowered from 2
+            score += 0.3
+            factors.append('shape_detected')
+        
+        # Texture analysis - cars have more texture than smooth asphalt
+        if texture_std > 15:  # Cars have more texture variation
             score += 0.2
-            factors.append('darker_area')
+            factors.append('texture_variation')
         
-        if contour_count > 2:  # Multiple contours suggest car features
-            score += 0.25
-            factors.append('multiple_contours')
+        # Additional heuristic: If multiple weak signals, likely occupied
+        weak_signals = 0
+        if edge_density > 0.01:
+            weak_signals += 1
+        if color_variance > 100:
+            weak_signals += 1
+        if texture_std > 10:
+            weak_signals += 1
+        if weak_signals >= 2:
+            score += 0.15
+            factors.append('multiple_weak_signals')
         
-        # Determine occupancy based on combined score
-        if score > 0.5:
+        # Much more sensitive threshold - err on side of marking as occupied
+        if score > 0.25:  # Lowered from 0.5
             occupied = True
             confidence = min(score, 1.0)
         else:
