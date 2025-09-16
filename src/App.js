@@ -22,6 +22,7 @@ import {
   DirectionsRenderer,
 } from '@react-google-maps/api'
 import { useRef, useState } from 'react'
+import ParkingDetectionTest from './ParkingDetectionTest'
 
 const center = { lat: 48.8584, lng: 2.2945 }
 
@@ -38,6 +39,7 @@ function App() {
   const [steps, setSteps] = useState([])
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const [showSteps, setShowSteps] = useState(false)
+  const [showAITest, setShowAITest] = useState(false)
 
   const [isNavigating, setIsNavigating] = useState(false)
   const navigationIntervalRef = useRef(null)
@@ -324,7 +326,19 @@ function App() {
           <Heading as="h1" size="lg" color={"yellow.500"} lineHeight="1">Spot</Heading>
           <Heading as="h1" size="lg" color={"yellow.500"} lineHeight="1">Smart</Heading>
         </VStack>
+        
+        <VStack spacing={2}>
           <Heading as="h1" size="lg" color={"yellow.500"} lineHeight="1">AIM-IT</Heading>
+          <Button 
+            size="sm" 
+            colorScheme="blue" 
+            onClick={() => setShowAITest(!showAITest)}
+            bg='whiteAlpha.900'
+            color="blue.600"
+          >
+            {showAITest ? 'Hide' : 'Test'} AI Detection
+          </Button>
+        </VStack>
       </Flex>
 
       <Box position='absolute' left={0} top={0} h='100%' w='100%'>
@@ -433,6 +447,18 @@ function App() {
           </Box>
         )}
       </Box>
+      
+      {showAITest && (
+        <Box
+          position='absolute'
+          top={4}
+          right={4}
+          zIndex='2'
+          w='400px'
+        >
+          <ParkingDetectionTest />
+        </Box>
+      )}
       
     </Flex>
   )

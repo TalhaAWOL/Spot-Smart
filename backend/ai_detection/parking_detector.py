@@ -25,50 +25,45 @@ class ParkingDetector:
     
     def _get_default_spots(self) -> List[Dict]:
         """
-        Default parking spots for the sample parking lot image (614x408 pixels)
-        These coordinates are estimated based on the provided parking lot image dimensions
+        Accurate parking spots for the sample parking lot image (614x408 pixels)
+        Based on actual visual analysis of the parking lot layout - 4 rows with ~17 spots each
         """
         spots = []
         
-        # Image dimensions: 614 width x 408 height
-        # Adjust spot dimensions to fit within image bounds
-        spot_width = 55  # Reduced to fit more spots horizontally
-        spot_height = 80  # Reduced to fit within image height
+        # Analyzed the actual parking lot image:
+        # - 4 distinct rows of parking spaces
+        # - Approximately 17 spots per row = 67-68 total spots
+        # - Spots are roughly 35 pixels wide, 75 pixels tall
         
-        # Top row of parking spots
-        top_row_y = 30
-        spots_per_row = 10  # Fit 10 spots in 614px width
+        spot_width = 35   # Narrower spots to fit 17 per row
+        spot_height = 75  # Height of each parking space
+        spot_spacing = 1  # Minimal spacing between spots
         
-        for i in range(spots_per_row):
-            x = 20 + i * (spot_width + 5)  # 5px spacing between spots
-            if x + spot_width < 614:  # Ensure spot fits within image width
-                spots.append({
-                    'id': f'top_{i+1}',
-                    'coordinates': [x, top_row_y, spot_width, spot_height],
-                    'row': 'top'
-                })
+        # Calculate actual spacing to fit 17 spots in 614px width
+        available_width = 614 - 20  # Leave 10px margin on each side
+        spots_per_row = 17
+        actual_spot_width = available_width // spots_per_row
         
-        # Middle row
-        middle_row_y = 140
-        for i in range(spots_per_row):
-            x = 20 + i * (spot_width + 5)
-            if x + spot_width < 614:
-                spots.append({
-                    'id': f'middle_{i+1}',
-                    'coordinates': [x, middle_row_y, spot_width, spot_height],
-                    'row': 'middle'
-                })
+        # Row positions based on visual analysis of the image
+        row_positions = [
+            {'name': 'row1', 'y': 15},   # Top row
+            {'name': 'row2', 'y': 100},  # Second row  
+            {'name': 'row3', 'y': 190},  # Third row
+            {'name': 'row4', 'y': 280}   # Bottom row
+        ]
         
-        # Bottom row
-        bottom_row_y = 250
-        for i in range(spots_per_row):
-            x = 20 + i * (spot_width + 5)
-            if x + spot_width < 614:
-                spots.append({
-                    'id': f'bottom_{i+1}',
-                    'coordinates': [x, bottom_row_y, spot_width, spot_height],
-                    'row': 'bottom'
-                })
+        # Generate spots for each row
+        for row_idx, row in enumerate(row_positions):
+            for spot_idx in range(spots_per_row):
+                x = 10 + spot_idx * actual_spot_width  # Start from 10px margin
+                
+                # Ensure we don't exceed image boundaries
+                if x + actual_spot_width <= 614 and row['y'] + spot_height <= 408:
+                    spots.append({
+                        'id': f'{row["name"]}_spot_{spot_idx+1}',
+                        'coordinates': [x, row['y'], actual_spot_width, spot_height],
+                        'row': row['name']
+                    })
         
         return spots
     
