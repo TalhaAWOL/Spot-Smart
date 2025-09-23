@@ -165,12 +165,20 @@ def test_video_processing():
         result = processor.load_video("uploads/parking_video.mp4")
         
         if result.get("success"):
-            # Extract first frame and detect cars
-            ret, frame = processor.extract_frame(0)
-            if ret:
-                cars = processor.detect_cars_basic(frame)
+            # Extract multiple frames for enhanced MOG2 detection
+            sample_frames = processor.extract_sample_frames(5)
+            if sample_frames:
+                # Use enhanced MOG2 detection
+                bg_subtractor = None
+                for frame in sample_frames:
+                    _, bg_subtractor = processor.detect_cars_mog2(frame, bg_subtractor)
+                
+                # Final detection on last frame
+                cars, _ = processor.detect_cars_mog2(sample_frames[-1], bg_subtractor)
                 result['test_car_detection'] = {
                     'cars_detected': len(cars),
+                    'frames_processed': len(sample_frames),
+                    'detection_method': 'enhanced_mog2',
                     'frame_extracted': True
                 }
             else:
