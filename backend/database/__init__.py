@@ -1,0 +1,1 @@
+# Database package for Sheridan Spot Smart

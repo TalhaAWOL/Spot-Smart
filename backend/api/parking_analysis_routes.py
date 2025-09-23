@@ -8,6 +8,7 @@ import os
 import cv2
 from ai_detection.video_processor import VideoProcessor
 from ai_detection.parking_mapper import ParkingMapper
+from database.parking_database import parking_db
 import json
 
 parking_analysis_bp = Blueprint('parking_analysis', __name__)
@@ -84,6 +85,65 @@ def analyze_parking_video():
         result_filename = f'parking_analysis_frame_{frame_number}.jpg'
         result_path = os.path.join('uploads', result_filename)
         cv2.imwrite(result_path, annotated_frame)
+        
+        # ============ DATABASE OPERATIONS ============
+        try:
+            # Create or get parking lot
+            lot_name = f"Sheridan College Parking Lot"
+            lot_location = "Sheridan College, Brampton, ON"
+            
+            # Check if lot exists, if not create it
+            existing_lots = parking_db.get_all_parking_lots()
+            lot_id = None
+            
+            for lot in existing_lots:
+                if lot['name'] == lot_name:
+                    lot_id = lot['lot_id']
+                    break
+            
+            if not lot_id:
+                # Create new parking lot
+                lot_data = parking_db.create_parking_lot(
+                    name=lot_name,
+                    location=lot_location,
+                    total_spaces=occupancy_analysis['total_spaces']
+                )
+                lot_id = lot_data['lot_id']
+                print(f"✅ Created new parking lot: {lot_id}")
+                
+                # Create parking spots for the lot
+                spots_data = []
+                for i, space in enumerate(mapper.parking_spaces):
+                    spots_data.append({
+                        'spot_number': i + 1,
+                        'coordinates': space
+                    })
+                
+                if spots_data:
+                    parking_db.create_parking_spots(lot_id, spots_data)
+                    print(f"✅ Created {len(spots_data)} parking spots")
+            
+            # Log the availability analysis
+            analysis_log_data = {
+                'total_spaces': occupancy_analysis['total_spaces'],
+                'occupied_spaces': occupancy_analysis['occupied_spaces'],
+                'available_spaces': occupancy_analysis['available_spaces'],
+                'detection_data': {
+                    'method': 'advanced_opencv_with_morphological',
+                    'confidence': 0.95,
+                    'car_count': len(detected_cars),
+                    'detected_cars': detected_cars,
+                    'analysis_duration': 0,
+                    'frame_analyzed': frame_number
+                }
+            }
+            
+            log_result = parking_db.log_availability_analysis(lot_id, analysis_log_data)
+            print(f"✅ Logged availability analysis: {log_result.get('log_id', 'unknown')}")
+            
+        except Exception as db_error:
+            print(f"⚠️ Database operation failed: {db_error}")
+            # Continue execution even if database fails
         
         processor.close()
         
