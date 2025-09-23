@@ -1,0 +1,403 @@
+{
+  "video_width": 1280,
+  "video_height": 720,
+  "total_spaces": 36,
+  "parking_spaces": [
+    {
+      "id": "row1_space_1",
+      "coordinates": [
+        50,
+        100,
+        80,
+        180
+      ],
+      "row": 1,
+      "position": 1
+    },
+    {
+      "id": "row1_space_2",
+      "coordinates": [
+        130,
+        100,
+        80,
+        180
+      ],
+      "row": 1,
+      "position": 2
+    },
+    {
+      "id": "row1_space_3",
+      "coordinates": [
+        210,
+        100,
+        80,
+        180
+      ],
+      "row": 1,
+      "position": 3
+    },
+    {
+      "id": "row1_space_4",
+      "coordinates": [
+        290,
+        100,
+        80,
+        180
+      ],
+      "row": 1,
+      "position": 4
+    },
+    {
+      "id": "row1_space_5",
+      "coordinates": [
+        370,
+        100,
+        80,
+        180
+      ],
+      "row": 1,
+      "position": 5
+    },
+    {
+      "id": "row1_space_6",
+      "coordinates": [
+        450,
+        100,
+        80,
+        180
+      ],
+      "row": 1,
+      "position": 6
+    },
+    {
+      "id": "row1_space_7",
+      "coordinates": [
+        530,
+        100,
+        80,
+        180
+      ],
+      "row": 1,
+      "position": 7
+    },
+    {
+      "id": "row1_space_8",
+      "coordinates": [
+        610,
+        100,
+        80,
+        180
+      ],
+      "row": 1,
+      "position": 8
+    },
+    {
+      "id": "row1_space_9",
+      "coordinates": [
+        690,
+        100,
+        80,
+        180
+      ],
+      "row": 1,
+      "position": 9
+    },
+    {
+      "id": "row1_space_10",
+      "coordinates": [
+        770,
+        100,
+        80,
+        180
+      ],
+      "row": 1,
+      "position": 10
+    },
+    {
+      "id": "row1_space_11",
+      "coordinates": [
+        850,
+        100,
+        80,
+        180
+      ],
+      "row": 1,
+      "position": 11
+    },
+    {
+      "id": "row1_space_12",
+      "coordinates": [
+        930,
+        100,
+        80,
+        180
+      ],
+      "row": 1,
+      "position": 12
+    },
+    {
+      "id": "row1_space_13",
+      "coordinates": [
+        1010,
+        100,
+        80,
+        180
+      ],
+      "row": 1,
+      "position": 13
+    },
+    {
+      "id": "row1_space_14",
+      "coordinates": [
+        1090,
+        100,
+        80,
+        180
+      ],
+      "row": 1,
+      "position": 14
+    },
+    {
+      "id": "row2_space_1",
+      "coordinates": [
+        110,
+        320,
+        80,
+        160
+      ],
+      "row": 2,
+      "position": 1
+    },
+    {
+      "id": "row2_space_2",
+      "coordinates": [
+        190,
+        320,
+        80,
+        160
+      ],
+      "row": 2,
+      "position": 2
+    },
+    {
+      "id": "row2_space_3",
+      "coordinates": [
+        270,
+        320,
+        80,
+        160
+      ],
+      "row": 2,
+      "position": 3
+    },
+    {
+      "id": "row2_space_4",
+      "coordinates": [
+        350,
+        320,
+        80,
+        160
+      ],
+      "row": 2,
+      "position": 4
+    },
+    {
+      "id": "row2_space_5",
+      "coordinates": [
+        430,
+        320,
+        80,
+        160
+      ],
+      "row": 2,
+      "position": 5
+    },
+    {
+      "id": "row2_space_6",
+      "coordinates": [
+        510,
+        320,
+        80,
+        160
+      ],
+      "row": 2,
+      "position": 6
+    },
+    {
+      "id": "row2_space_7",
+      "coordinates": [
+        590,
+        320,
+        80,
+        160
+      ],
+      "row": 2,
+      "position": 7
+    },
+    {
+      "id": "row2_space_8",
+      "coordinates": [
+        670,
+        320,
+        80,
+        160
+      ],
+      "row": 2,
+      "position": 8
+    },
+    {
+      "id": "row2_space_9",
+      "coordinates": [
+        750,
+        320,
+        80,
+        160
+      ],
+      "row": 2,
+      "position": 9
+    },
+    {
+      "id": "row2_space_10",
+      "coordinates": [
+        830,
+        320,
+        80,
+        160
+      ],
+      "row": 2,
+      "position": 10
+    },
+    {
+      "id": "row2_space_11",
+      "coordinates": [
+        910,
+        320,
+        80,
+        160
+      ],
+      "row": 2,
+      "position": 11
+    },
+    {
+      "id": "row2_space_12",
+      "coordinates": [
+        990,
+        320,
+        80,
+        160
+      ],
+      "row": 2,
+      "position": 12
+    },
+    {
+      "id": "row3_space_1",
+      "coordinates": [
+        170,
+        520,
+        80,
+        140
+      ],
+      "row": 3,
+      "position": 1
+    },
+    {
+      "id": "row3_space_2",
+      "coordinates": [
+        250,
+        520,
+        80,
+        140
+      ],
+      "row": 3,
+      "position": 2
+    },
+    {
+      "id": "row3_space_3",
+      "coordinates": [
+        330,
+        520,
+        80,
+        140
+      ],
+      "row": 3,
+      "position": 3
+    },
+    {
+      "id": "row3_space_4",
+      "coordinates": [
+        410,
+        520,
+        80,
+        140
+      ],
+      "row": 3,
+      "position": 4
+    },
+    {
+      "id": "row3_space_5",
+      "coordinates": [
+        490,
+        520,
+        80,
+        140
+      ],
+      "row": 3,
+      "position": 5
+    },
+    {
+      "id": "row3_space_6",
+      "coordinates": [
+        570,
+        520,
+        80,
+        140
+      ],
+      "row": 3,
+      "position": 6
+    },
+    {
+      "id": "row3_space_7",
+      "coordinates": [
+        650,
+        520,
+        80,
+        140
+      ],
+      "row": 3,
+      "position": 7
+    },
+    {
+      "id": "row3_space_8",
+      "coordinates": [
+        730,
+        520,
+        80,
+        140
+      ],
+      "row": 3,
+      "position": 8
+    },
+    {
+      "id": "row3_space_9",
+      "coordinates": [
+        810,
+        520,
+        80,
+        140
+      ],
+      "row": 3,
+      "position": 9
+    },
+    {
+      "id": "row3_space_10",
+      "coordinates": [
+        890,
+        520,
+        80,
+        140
+      ],
+      "row": 3,
+      "position": 10
+    }
+  ]
+}

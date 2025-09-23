@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 # Import API blueprints
 from api.parking_routes import parking_bp
 from api.video_routes import video_bp
+from api.parking_analysis_routes import parking_analysis_bp
 
 # Load environment variables
 load_dotenv()
@@ -26,6 +27,7 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 # Register API blueprints
 app.register_blueprint(parking_bp, url_prefix='/api')
 app.register_blueprint(video_bp)
+app.register_blueprint(parking_analysis_bp)
 
 @app.route('/')
 def health_check():
@@ -47,7 +49,10 @@ def api_health():
             '/api/video/info',
             '/api/video/extract-frame',
             '/api/video/detect-cars',
-            '/api/video/test'
+            '/api/video/test',
+            '/api/parking/analyze-video',
+            '/api/parking/spaces',
+            '/api/parking/spaces/create'
         ]
     })
 
