@@ -23,7 +23,7 @@ class MongoDBManager:
     def connect(self):
         """Establish MongoDB connection"""
         try:
-            self.client = MongoClient(self.connection_string)
+            self.client = MongoClient(self.connection_string, serverSelectionTimeoutMS=5000)
             self.db = self.client[self.database_name]
             
             # Test connection
@@ -35,7 +35,9 @@ class MongoDBManager:
             
         except Exception as e:
             logger.error(f"❌ MongoDB connection failed: {e}")
+            logger.info("⚠️ MongoDB not available, using in-memory storage (this is normal for development)")
             # Fall back to in-memory storage for development
+            self.client = None
             self.db = None
     
     def init_collections(self):

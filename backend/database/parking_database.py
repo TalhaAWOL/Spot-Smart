@@ -76,7 +76,7 @@ class ParkingDatabase:
                 )
                 created_spots.append(spot)
             
-            if self.parking_spots and created_spots:
+            if self.parking_spots is not None and created_spots:
                 result = self.parking_spots.insert_many(created_spots)
                 logger.info(f"✅ Created {len(created_spots)} parking spots for lot {lot_id}")
             
@@ -92,7 +92,7 @@ class ParkingDatabase:
         try:
             update_data = ParkingSpotModel.update_occupancy(spot_id, is_occupied, confidence)
             
-            if self.parking_spots:
+            if self.parking_spots is not None:
                 result = self.parking_spots.update_one(
                     {'spot_id': spot_id},
                     {'$set': update_data}
@@ -111,7 +111,7 @@ class ParkingDatabase:
     def get_lot_spots(self, lot_id: str) -> List[Dict]:
         """Get all parking spots for a specific lot"""
         try:
-            if self.parking_spots:
+            if self.parking_spots is not None:
                 return list(self.parking_spots.find({'lot_id': lot_id, 'status': 'active'}))
             return []
         except Exception as e:
@@ -121,7 +121,7 @@ class ParkingDatabase:
     def get_available_spots(self, lot_id: str) -> List[Dict]:
         """Get available (unoccupied) spots for a lot"""
         try:
-            if self.parking_spots:
+            if self.parking_spots is not None:
                 return list(self.parking_spots.find({
                     'lot_id': lot_id, 
                     'is_occupied': False,
@@ -145,7 +145,7 @@ class ParkingDatabase:
                 detection_data=analysis_data.get('detection_data')
             )
             
-            if self.availability_logs:
+            if self.availability_logs is not None:
                 result = self.availability_logs.insert_one(log_data)
                 log_data['_id'] = str(result.inserted_id)
                 logger.info(f"✅ Logged availability analysis for lot {lot_id}")
@@ -159,7 +159,7 @@ class ParkingDatabase:
     def get_recent_availability(self, lot_id: str, hours: int = 24) -> List[Dict]:
         """Get recent availability logs for a lot"""
         try:
-            if self.availability_logs:
+            if self.availability_logs is not None:
                 since = datetime.utcnow() - timedelta(hours=hours)
                 return list(self.availability_logs.find({
                     'lot_id': lot_id,
@@ -173,7 +173,7 @@ class ParkingDatabase:
     def get_occupancy_stats(self, lot_id: str, days: int = 7) -> Dict:
         """Get occupancy statistics for a lot over specified days"""
         try:
-            if not self.availability_logs:
+            if self.availability_logs is None:
                 return {}
                 
             since = datetime.utcnow() - timedelta(days=days)

@@ -13,9 +13,15 @@ function ParkingDetectionTest() {
     try {
       // Test the AI detection with the sample video  
       // Smart backend URL detection for both Replit and local development
-      const backendUrl = window.location.hostname.includes('replit.dev') 
-        ? `${window.location.protocol}//${window.location.hostname}:3001`
-        : `http://localhost:3001`;
+      const isLocalDevelopment = window.location.hostname === 'localhost' || 
+                                window.location.hostname === '127.0.0.1' ||
+                                window.location.hostname.startsWith('192.168.') ||
+                                window.location.hostname.startsWith('10.') ||
+                                window.location.hostname === '0.0.0.0';
+      
+      const backendUrl = isLocalDevelopment
+        ? `http://localhost:3001`
+        : `${window.location.protocol}//${window.location.hostname}:3001`;
       
       console.log(`🔗 Connecting to backend: ${backendUrl}`);
       
@@ -87,7 +93,7 @@ function ParkingDetectionTest() {
         {results && (
           <Box w="100%" p={4} bg="gray.50" borderRadius="md">
             <Text fontSize="lg" fontWeight="bold" mb={3} color="green.600">
-              ✅ AI Detection Results:
+              AI Detection Results:
             </Text>
             
             <VStack align="start" spacing={2}>
@@ -96,13 +102,8 @@ function ParkingDetectionTest() {
               <Text><strong>Available Spots:</strong> {results.available_spots}</Text>
               <Text><strong>Occupancy Rate:</strong> {(results.occupancy_rate * 100).toFixed(1)}%</Text>
               <Text><strong>Detection Confidence:</strong> {(results.results.detection_confidence * 100).toFixed(1)}%</Text>
-              <Text><strong>Analysis Method:</strong> {results.results.analysis_method}</Text>
             </VStack>
             
-            <Text fontSize="sm" color="gray.600" mt={3}>
-              The AI analyzed {results.total_spots} individual parking spaces using computer vision 
-              to detect occupancy based on edge detection, color analysis, and contour recognition.
-            </Text>
           </Box>
         )}
       </VStack>
