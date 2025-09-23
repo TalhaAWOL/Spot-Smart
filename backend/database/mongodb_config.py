@@ -40,7 +40,7 @@ class MongoDBManager:
     
     def init_collections(self):
         """Initialize MongoDB collections with indexes"""
-        if not self.db:
+        if self.db is None:
             return
             
         # Create collections
@@ -55,6 +55,9 @@ class MongoDBManager:
     
     def create_indexes(self):
         """Create database indexes for optimal performance"""
+        if self.db is None:
+            return
+            
         try:
             # ParkingLots indexes
             self.db.parking_lots.create_index("lot_id", unique=True)
@@ -77,7 +80,7 @@ class MongoDBManager:
     
     def get_collection(self, collection_name):
         """Get a specific collection"""
-        if self.db:
+        if self.db is not None:
             return self.db[collection_name]
         return None
     

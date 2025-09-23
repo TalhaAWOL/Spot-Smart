@@ -27,7 +27,7 @@ class ParkingDatabase:
         try:
             lot_data = ParkingLotModel.create_lot(name, location, total_spaces, coordinates)
             
-            if self.parking_lots:
+            if self.parking_lots is not None:
                 result = self.parking_lots.insert_one(lot_data)
                 lot_data['_id'] = str(result.inserted_id)
                 logger.info(f"✅ Created parking lot: {lot_data['lot_id']}")
@@ -44,7 +44,7 @@ class ParkingDatabase:
     def get_parking_lot(self, lot_id: str) -> Optional[Dict]:
         """Get parking lot by ID"""
         try:
-            if self.parking_lots:
+            if self.parking_lots is not None:
                 return self.parking_lots.find_one({'lot_id': lot_id})
             return None
         except Exception as e:
@@ -54,7 +54,7 @@ class ParkingDatabase:
     def get_all_parking_lots(self) -> List[Dict]:
         """Get all parking lots"""
         try:
-            if self.parking_lots:
+            if self.parking_lots is not None:
                 return list(self.parking_lots.find({'status': 'active'}))
             return []
         except Exception as e:

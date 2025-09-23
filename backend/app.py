@@ -14,8 +14,15 @@ load_dotenv()
 # Initialize Flask app
 app = Flask(__name__)
 
-# Configure CORS to allow React frontend to communicate
-CORS(app, origins=['http://localhost:5000', 'http://0.0.0.0:5000', '*'])
+# Configure CORS to allow React frontend to communicate from any local source
+CORS(app, origins=[
+    'http://localhost:3000',  # Default React dev server
+    'http://localhost:5000',  # Configured React dev server
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:5000', 
+    'http://0.0.0.0:5000',
+    '*'  # Allow all origins for development
+], supports_credentials=True)
 
 # Configuration
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size

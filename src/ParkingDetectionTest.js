@@ -12,9 +12,12 @@ function ParkingDetectionTest() {
     
     try {
       // Test the AI detection with the sample video  
+      // Smart backend URL detection for both Replit and local development
       const backendUrl = window.location.hostname.includes('replit.dev') 
         ? `${window.location.protocol}//${window.location.hostname}:3001`
-        : 'http://localhost:3001';
+        : `http://localhost:3001`;
+      
+      console.log(`🔗 Connecting to backend: ${backendUrl}`);
       
       const response = await fetch(`${backendUrl}/api/parking/analyze-video`, {
         method: 'POST',
