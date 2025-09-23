@@ -84,7 +84,7 @@ function ParkingDetectionTest() {
         {results && (
           <Box w="100%" p={4} bg="gray.50" borderRadius="md">
             <Text fontSize="lg" fontWeight="bold" mb={3} color="green.600">
-              ✅ AI Detection Results:
+              AI Detection Results:
             </Text>
             
             <VStack align="start" spacing={2}>
@@ -93,13 +93,8 @@ function ParkingDetectionTest() {
               <Text><strong>Available Spots:</strong> {results.available_spots}</Text>
               <Text><strong>Occupancy Rate:</strong> {(results.occupancy_rate * 100).toFixed(1)}%</Text>
               <Text><strong>Detection Confidence:</strong> {(results.results.detection_confidence * 100).toFixed(1)}%</Text>
-              <Text><strong>Analysis Method:</strong> {results.results.analysis_method}</Text>
             </VStack>
             
-            <Text fontSize="sm" color="gray.600" mt={3}>
-              The AI analyzed {results.total_spots} individual parking spaces using computer vision 
-              to detect occupancy based on edge detection, color analysis, and contour recognition.
-            </Text>
           </Box>
         )}
       </VStack>
