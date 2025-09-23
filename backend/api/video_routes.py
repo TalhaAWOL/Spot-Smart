@@ -106,15 +106,27 @@ def detect_cars_in_frame():
             processor.close()
             return jsonify(load_result), 400
         
-        # Extract the requested frame
-        ret, frame = processor.extract_frame(frame_number)
+        # Extract multiple frames to build background model for MOG2
+        sample_frames = processor.extract_sample_frames(5)
         
-        if not ret or frame is None:
+        if not sample_frames:
             processor.close()
-            return jsonify({'error': f'Could not extract frame {frame_number}'}), 400
+            return jsonify({'error': f'Could not extract frames for analysis'}), 400
         
-        # Detect cars in the frame
-        cars = processor.detect_cars_basic(frame)
+        # Use MOG2 background subtraction with multiple frames
+        bg_subtractor = None
+        for frame in sample_frames:
+            _, bg_subtractor = processor.detect_cars_mog2(frame, bg_subtractor)
+        
+        # Get final detection on requested frame
+        ret, target_frame = processor.extract_frame(frame_number)
+        if ret and target_frame is not None:
+            cars, _ = processor.detect_cars_mog2(target_frame, bg_subtractor)
+            frame = target_frame
+        else:
+            # Fallback to last sample frame
+            cars, _ = processor.detect_cars_mog2(sample_frames[-1], bg_subtractor)
+            frame = sample_frames[-1]
         
         # Create annotated frame with bounding boxes
         annotated_frame = frame.copy()
