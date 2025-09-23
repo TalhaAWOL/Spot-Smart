@@ -305,9 +305,9 @@ class VideoProcessor:
         # Method 2: Template matching for car-like rectangles
         height, width = frame.shape[:2]
         
-        # Adaptive area thresholds based on image size
-        min_area = (width * height) * 0.0008  # 0.08% of image
-        max_area = (width * height) * 0.05    # 5% of image
+        # MUCH MORE AGGRESSIVE thresholds to find ALL 38 cars
+        min_area = (width * height) * 0.0003  # 0.03% of image (much smaller)
+        max_area = (width * height) * 0.08    # 8% of image (much larger)
         
         # Enhanced contour filtering for cars
         for i, contour in enumerate(contours):
@@ -317,11 +317,11 @@ class VideoProcessor:
                 # Get bounding rectangle
                 x, y, w, h = cv2.boundingRect(contour)
                 
-                # Enhanced aspect ratio filtering
+                # MUCH MORE PERMISSIVE aspect ratio filtering for ALL cars including partial ones
                 aspect_ratio = w / h if h > 0 else 0
                 
-                # Cars can vary in perspective, so broader aspect ratio
-                if 0.8 < aspect_ratio < 3.5 and w > 25 and h > 15:
+                # Accept almost any rectangular shape (including partial cars)
+                if 0.3 < aspect_ratio < 5.0 and w > 15 and h > 10:
                     # Calculate multiple shape metrics
                     perimeter = cv2.arcLength(contour, True)
                     hull = cv2.convexHull(contour)
@@ -332,27 +332,27 @@ class VideoProcessor:
                     rect_area = w * h
                     extent = area / rect_area if rect_area > 0 else 0
                     
-                    # Combined confidence scoring
-                    confidence = 0.2  # Base confidence
+                    # MUCH MORE AGGRESSIVE confidence scoring to find ALL cars
+                    confidence = 0.3  # Higher base confidence
                     
-                    # Good solidity (filled shape)
-                    if solidity > 0.6:
-                        confidence += 0.3
-                    
-                    # Good extent (fills bounding box)
-                    if extent > 0.5:
+                    # Any decent solidity gets bonus
+                    if solidity > 0.4:  # Lowered from 0.6
                         confidence += 0.2
                     
-                    # Good aspect ratio for cars
-                    if 1.2 < aspect_ratio < 2.5:
+                    # Any decent extent gets bonus  
+                    if extent > 0.3:  # Lowered from 0.5
                         confidence += 0.2
                     
-                    # Size bonus for reasonable car sizes
-                    if min_area * 3 < area < max_area * 0.5:
+                    # Very broad aspect ratio acceptance
+                    if 0.5 < aspect_ratio < 4.0:  # Much broader
+                        confidence += 0.15
+                    
+                    # Size bonus for any reasonable size
+                    if area > min_area * 2:  # Much lower threshold
                         confidence += 0.1
                     
-                    # Only keep detections with reasonable confidence
-                    if confidence > 0.4:
+                    # MUCH LOWER threshold to catch ALL cars including partial ones
+                    if confidence > 0.25:  # Lowered from 0.4
                         detected_cars.append({
                             'id': f'advanced_car_{i}',
                             'bbox': [x, y, w, h],
@@ -385,7 +385,7 @@ class VideoProcessor:
                 x, y, w, h = cv2.boundingRect(contour)
                 aspect_ratio = w / h if h > 0 else 0
                 
-                if 0.8 < aspect_ratio < 3.0 and w > 30 and h > 20:
+                if 0.3 < aspect_ratio < 5.0 and w > 20 and h > 15:  # Much more permissive
                     # Avoid duplicates with contour detections
                     is_duplicate = False
                     for existing_car in detected_cars:

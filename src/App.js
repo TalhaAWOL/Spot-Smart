@@ -327,14 +327,21 @@ function App() {
           <Heading as="h1" size="lg" color={"yellow.500"} lineHeight="1">Smart</Heading>
         </VStack>
         
-        <VStack spacing={2}>
+        <VStack spacing={2} pointerEvents="auto">
           <Heading as="h1" size="lg" color={"yellow.500"} lineHeight="1">AIM-IT</Heading>
           <Button 
             size="sm" 
             colorScheme="blue" 
-            onClick={() => setShowAITest(!showAITest)}
+            onClick={(e) => {
+              e.stopPropagation()
+              setShowAITest(!showAITest)
+            }}
             bg='whiteAlpha.900'
             color="blue.600"
+            cursor="pointer"
+            pointerEvents="auto"
+            _hover={{ bg: 'blue.100' }}
+            fontWeight="bold"
           >
             {showAITest ? 'Hide' : 'Test'} AI Detection
           </Button>

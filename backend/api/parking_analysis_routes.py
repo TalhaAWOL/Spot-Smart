@@ -64,8 +64,8 @@ def analyze_parking_video():
             target_frame = sample_frames[-1]
             frame_number = 'last_sample'
         
-        # Detect cars in the frame
-        detected_cars, _ = processor.detect_cars_mog2(target_frame, bg_subtractor)
+        # Detect cars using ADVANCED detection for ALL cars including stationary ones
+        detected_cars = processor.detect_cars_advanced(target_frame)
         
         # Analyze parking occupancy
         occupancy_analysis = mapper.analyze_parking_occupancy(target_frame, detected_cars)
