@@ -450,11 +450,16 @@ function App() {
       
       {showAITest && (
         <Box
-          position='absolute'
+          position='fixed'
           top={4}
           right={4}
-          zIndex='2'
+          zIndex='9999'
           w='400px'
+          bg='white'
+          borderRadius='lg'
+          boxShadow='2xl'
+          border='2px solid'
+          borderColor='blue.500'
         >
           <ParkingDetectionTest />
         </Box>

@@ -274,52 +274,146 @@ class VideoProcessor:
         
         return intersection / union if union > 0 else 0.0
     
-    def detect_cars_basic(self, frame: np.ndarray) -> List[Dict]:
-        """Basic car detection using OpenCV contours (fallback method)"""
+    def detect_cars_advanced(self, frame: np.ndarray) -> List[Dict]:
+        """Advanced car detection using multiple OpenCV techniques for stationary cars"""
         detected_cars = []
         
-        # Convert to grayscale
+        # Method 1: Enhanced contour detection with better filtering
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         
-        # Apply Gaussian blur to reduce noise
-        blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+        # Apply CLAHE (Contrast Limited Adaptive Histogram Equalization) for better contrast
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+        enhanced = clahe.apply(gray)
         
-        # Edge detection
-        edges = cv2.Canny(blurred, 50, 150)
+        # Apply bilateral filter to reduce noise while preserving edges
+        filtered = cv2.bilateralFilter(enhanced, 9, 75, 75)
+        
+        # Multiple edge detection approaches
+        edges1 = cv2.Canny(filtered, 50, 150)
+        edges2 = cv2.Canny(filtered, 30, 100)
+        
+        # Combine edge maps
+        edges = cv2.bitwise_or(edges1, edges2)
+        
+        # Morphological operations to close gaps
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+        edges = cv2.morphologyEx(edges, cv2.MORPH_CLOSE, kernel)
         
         # Find contours
         contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         
-        # Filter contours based on size and aspect ratio (car-like shapes)
+        # Method 2: Template matching for car-like rectangles
+        height, width = frame.shape[:2]
+        
+        # Adaptive area thresholds based on image size
+        min_area = (width * height) * 0.0008  # 0.08% of image
+        max_area = (width * height) * 0.05    # 5% of image
+        
+        # Enhanced contour filtering for cars
         for i, contour in enumerate(contours):
             area = cv2.contourArea(contour)
             
-            # Filter by area (cars should be reasonably large)
-            if area > 1000 and area < 20000:
+            if min_area < area < max_area:
                 # Get bounding rectangle
                 x, y, w, h = cv2.boundingRect(contour)
                 
-                # Filter by aspect ratio (cars are generally wider than tall)
+                # Enhanced aspect ratio filtering
                 aspect_ratio = w / h if h > 0 else 0
                 
-                if 0.5 < aspect_ratio < 4.0 and w > 30 and h > 20:
-                    # Calculate confidence based on contour properties
+                # Cars can vary in perspective, so broader aspect ratio
+                if 0.8 < aspect_ratio < 3.5 and w > 25 and h > 15:
+                    # Calculate multiple shape metrics
                     perimeter = cv2.arcLength(contour, True)
-                    compactness = (perimeter * perimeter) / area if area > 0 else 0
+                    hull = cv2.convexHull(contour)
+                    hull_area = cv2.contourArea(hull)
+                    solidity = area / hull_area if hull_area > 0 else 0
                     
-                    # Lower compactness means more car-like shape
-                    confidence = min(1.0, max(0.3, 1.0 - (compactness / 100)))
+                    # Rectangle approximation
+                    rect_area = w * h
+                    extent = area / rect_area if rect_area > 0 else 0
                     
-                    detected_cars.append({
-                        'id': f'basic_car_{i}',
-                        'bbox': [x, y, w, h],
-                        'confidence': confidence,
-                        'center': [x + w//2, y + h//2],
-                        'area': area,
-                        'method': 'basic'
-                    })
+                    # Combined confidence scoring
+                    confidence = 0.2  # Base confidence
+                    
+                    # Good solidity (filled shape)
+                    if solidity > 0.6:
+                        confidence += 0.3
+                    
+                    # Good extent (fills bounding box)
+                    if extent > 0.5:
+                        confidence += 0.2
+                    
+                    # Good aspect ratio for cars
+                    if 1.2 < aspect_ratio < 2.5:
+                        confidence += 0.2
+                    
+                    # Size bonus for reasonable car sizes
+                    if min_area * 3 < area < max_area * 0.5:
+                        confidence += 0.1
+                    
+                    # Only keep detections with reasonable confidence
+                    if confidence > 0.4:
+                        detected_cars.append({
+                            'id': f'advanced_car_{i}',
+                            'bbox': [x, y, w, h],
+                            'confidence': min(1.0, confidence),
+                            'center': [x + w//2, y + h//2],
+                            'area': area,
+                            'method': 'advanced_opencv',
+                            'solidity': solidity,
+                            'extent': extent,
+                            'aspect_ratio': aspect_ratio
+                        })
+        
+        # Method 3: Cascade detection with Haar-like features for rectangles
+        # Look for rectangular car-like objects using morphological analysis
+        
+        # Create binary image
+        _, binary = cv2.threshold(filtered, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        
+        # Find rectangular structures
+        rect_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 8))
+        morph = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, rect_kernel)
+        
+        # Find contours in morphological result
+        morph_contours, _ = cv2.findContours(morph, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        for i, contour in enumerate(morph_contours):
+            area = cv2.contourArea(contour)
+            
+            if min_area < area < max_area:
+                x, y, w, h = cv2.boundingRect(contour)
+                aspect_ratio = w / h if h > 0 else 0
+                
+                if 0.8 < aspect_ratio < 3.0 and w > 30 and h > 20:
+                    # Avoid duplicates with contour detections
+                    is_duplicate = False
+                    for existing_car in detected_cars:
+                        ex_x, ex_y, ex_w, ex_h = existing_car['bbox']
+                        overlap = self._calculate_overlap([x, y, w, h], [ex_x, ex_y, ex_w, ex_h])
+                        if overlap > 0.5:
+                            is_duplicate = True
+                            break
+                    
+                    if not is_duplicate:
+                        detected_cars.append({
+                            'id': f'morph_car_{i}',
+                            'bbox': [x, y, w, h],
+                            'confidence': 0.6,
+                            'center': [x + w//2, y + h//2],
+                            'area': area,
+                            'method': 'morphological',
+                            'aspect_ratio': aspect_ratio
+                        })
+        
+        # Sort by confidence and area (larger, more confident detections first)
+        detected_cars.sort(key=lambda x: (x['confidence'], x['area']), reverse=True)
         
         return detected_cars
+    
+    def detect_cars_basic(self, frame: np.ndarray) -> List[Dict]:
+        """Basic car detection - now redirects to advanced detection"""
+        return self.detect_cars_advanced(frame)
     
     def close(self):
         """Release video capture resources"""

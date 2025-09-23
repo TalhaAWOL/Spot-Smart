@@ -118,14 +118,14 @@ def detect_cars_in_frame():
         for frame in sample_frames:
             _, bg_subtractor = processor.detect_cars_mog2(frame, bg_subtractor)
         
-        # Get final detection on requested frame
+        # Get final detection on requested frame using ADVANCED detection for stationary cars
         ret, target_frame = processor.extract_frame(frame_number)
         if ret and target_frame is not None:
-            cars, _ = processor.detect_cars_mog2(target_frame, bg_subtractor)
+            cars = processor.detect_cars_advanced(target_frame)  # Use advanced detection
             frame = target_frame
         else:
             # Fallback to last sample frame
-            cars, _ = processor.detect_cars_mog2(sample_frames[-1], bg_subtractor)
+            cars = processor.detect_cars_advanced(sample_frames[-1])  # Use advanced detection
             frame = sample_frames[-1]
         
         # Create annotated frame with bounding boxes

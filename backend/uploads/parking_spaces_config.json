@@ -1,15 +1,15 @@
 {
   "video_width": 1280,
   "video_height": 720,
-  "total_spaces": 36,
+  "total_spaces": 71,
   "parking_spaces": [
     {
       "id": "row1_space_1",
       "coordinates": [
-        50,
-        100,
+        40,
         80,
-        180
+        65,
+        120
       ],
       "row": 1,
       "position": 1
@@ -17,10 +17,10 @@
     {
       "id": "row1_space_2",
       "coordinates": [
-        130,
-        100,
+        110,
         80,
-        180
+        65,
+        120
       ],
       "row": 1,
       "position": 2
@@ -28,10 +28,10 @@
     {
       "id": "row1_space_3",
       "coordinates": [
-        210,
-        100,
+        180,
         80,
-        180
+        65,
+        120
       ],
       "row": 1,
       "position": 3
@@ -39,10 +39,10 @@
     {
       "id": "row1_space_4",
       "coordinates": [
-        290,
-        100,
+        250,
         80,
-        180
+        65,
+        120
       ],
       "row": 1,
       "position": 4
@@ -50,10 +50,10 @@
     {
       "id": "row1_space_5",
       "coordinates": [
-        370,
-        100,
+        320,
         80,
-        180
+        65,
+        120
       ],
       "row": 1,
       "position": 5
@@ -61,10 +61,10 @@
     {
       "id": "row1_space_6",
       "coordinates": [
-        450,
-        100,
+        390,
         80,
-        180
+        65,
+        120
       ],
       "row": 1,
       "position": 6
@@ -72,10 +72,10 @@
     {
       "id": "row1_space_7",
       "coordinates": [
-        530,
-        100,
+        460,
         80,
-        180
+        65,
+        120
       ],
       "row": 1,
       "position": 7
@@ -83,10 +83,10 @@
     {
       "id": "row1_space_8",
       "coordinates": [
-        610,
-        100,
+        530,
         80,
-        180
+        65,
+        120
       ],
       "row": 1,
       "position": 8
@@ -94,10 +94,10 @@
     {
       "id": "row1_space_9",
       "coordinates": [
-        690,
-        100,
+        600,
         80,
-        180
+        65,
+        120
       ],
       "row": 1,
       "position": 9
@@ -105,10 +105,10 @@
     {
       "id": "row1_space_10",
       "coordinates": [
-        770,
-        100,
+        670,
         80,
-        180
+        65,
+        120
       ],
       "row": 1,
       "position": 10
@@ -116,10 +116,10 @@
     {
       "id": "row1_space_11",
       "coordinates": [
-        850,
-        100,
+        740,
         80,
-        180
+        65,
+        120
       ],
       "row": 1,
       "position": 11
@@ -127,10 +127,10 @@
     {
       "id": "row1_space_12",
       "coordinates": [
-        930,
-        100,
+        810,
         80,
-        180
+        65,
+        120
       ],
       "row": 1,
       "position": 12
@@ -138,10 +138,10 @@
     {
       "id": "row1_space_13",
       "coordinates": [
-        1010,
-        100,
+        880,
         80,
-        180
+        65,
+        120
       ],
       "row": 1,
       "position": 13
@@ -149,21 +149,54 @@
     {
       "id": "row1_space_14",
       "coordinates": [
-        1090,
-        100,
+        950,
         80,
-        180
+        65,
+        120
       ],
       "row": 1,
       "position": 14
     },
     {
+      "id": "row1_space_15",
+      "coordinates": [
+        1020,
+        80,
+        65,
+        120
+      ],
+      "row": 1,
+      "position": 15
+    },
+    {
+      "id": "row1_space_16",
+      "coordinates": [
+        1090,
+        80,
+        65,
+        120
+      ],
+      "row": 1,
+      "position": 16
+    },
+    {
+      "id": "row1_space_17",
+      "coordinates": [
+        1160,
+        80,
+        65,
+        120
+      ],
+      "row": 1,
+      "position": 17
+    },
+    {
       "id": "row2_space_1",
       "coordinates": [
-        110,
-        320,
-        80,
-        160
+        50,
+        220,
+        70,
+        140
       ],
       "row": 2,
       "position": 1
@@ -171,10 +204,10 @@
     {
       "id": "row2_space_2",
       "coordinates": [
-        190,
-        320,
-        80,
-        160
+        128,
+        220,
+        70,
+        140
       ],
       "row": 2,
       "position": 2
@@ -182,10 +215,10 @@
     {
       "id": "row2_space_3",
       "coordinates": [
-        270,
-        320,
-        80,
-        160
+        206,
+        220,
+        70,
+        140
       ],
       "row": 2,
       "position": 3
@@ -193,10 +226,10 @@
     {
       "id": "row2_space_4",
       "coordinates": [
-        350,
-        320,
-        80,
-        160
+        284,
+        220,
+        70,
+        140
       ],
       "row": 2,
       "position": 4
@@ -204,10 +237,10 @@
     {
       "id": "row2_space_5",
       "coordinates": [
-        430,
-        320,
-        80,
-        160
+        362,
+        220,
+        70,
+        140
       ],
       "row": 2,
       "position": 5
@@ -215,10 +248,10 @@
     {
       "id": "row2_space_6",
       "coordinates": [
-        510,
-        320,
-        80,
-        160
+        440,
+        220,
+        70,
+        140
       ],
       "row": 2,
       "position": 6
@@ -226,10 +259,10 @@
     {
       "id": "row2_space_7",
       "coordinates": [
-        590,
-        320,
-        80,
-        160
+        518,
+        220,
+        70,
+        140
       ],
       "row": 2,
       "position": 7
@@ -237,10 +270,10 @@
     {
       "id": "row2_space_8",
       "coordinates": [
-        670,
-        320,
-        80,
-        160
+        596,
+        220,
+        70,
+        140
       ],
       "row": 2,
       "position": 8
@@ -248,10 +281,10 @@
     {
       "id": "row2_space_9",
       "coordinates": [
-        750,
-        320,
-        80,
-        160
+        674,
+        220,
+        70,
+        140
       ],
       "row": 2,
       "position": 9
@@ -259,10 +292,10 @@
     {
       "id": "row2_space_10",
       "coordinates": [
-        830,
-        320,
-        80,
-        160
+        752,
+        220,
+        70,
+        140
       ],
       "row": 2,
       "position": 10
@@ -270,10 +303,10 @@
     {
       "id": "row2_space_11",
       "coordinates": [
-        910,
-        320,
-        80,
-        160
+        830,
+        220,
+        70,
+        140
       ],
       "row": 2,
       "position": 11
@@ -281,21 +314,54 @@
     {
       "id": "row2_space_12",
       "coordinates": [
-        990,
-        320,
-        80,
-        160
+        908,
+        220,
+        70,
+        140
       ],
       "row": 2,
       "position": 12
     },
     {
+      "id": "row2_space_13",
+      "coordinates": [
+        986,
+        220,
+        70,
+        140
+      ],
+      "row": 2,
+      "position": 13
+    },
+    {
+      "id": "row2_space_14",
+      "coordinates": [
+        1064,
+        220,
+        70,
+        140
+      ],
+      "row": 2,
+      "position": 14
+    },
+    {
+      "id": "row2_space_15",
+      "coordinates": [
+        1142,
+        220,
+        70,
+        140
+      ],
+      "row": 2,
+      "position": 15
+    },
+    {
       "id": "row3_space_1",
       "coordinates": [
-        170,
-        520,
-        80,
-        140
+        70,
+        380,
+        75,
+        150
       ],
       "row": 3,
       "position": 1
@@ -303,10 +369,10 @@
     {
       "id": "row3_space_2",
       "coordinates": [
-        250,
-        520,
-        80,
-        140
+        155,
+        380,
+        75,
+        150
       ],
       "row": 3,
       "position": 2
@@ -314,10 +380,10 @@
     {
       "id": "row3_space_3",
       "coordinates": [
-        330,
-        520,
-        80,
-        140
+        240,
+        380,
+        75,
+        150
       ],
       "row": 3,
       "position": 3
@@ -325,10 +391,10 @@
     {
       "id": "row3_space_4",
       "coordinates": [
-        410,
-        520,
-        80,
-        140
+        325,
+        380,
+        75,
+        150
       ],
       "row": 3,
       "position": 4
@@ -336,10 +402,10 @@
     {
       "id": "row3_space_5",
       "coordinates": [
-        490,
-        520,
-        80,
-        140
+        410,
+        380,
+        75,
+        150
       ],
       "row": 3,
       "position": 5
@@ -347,10 +413,10 @@
     {
       "id": "row3_space_6",
       "coordinates": [
-        570,
-        520,
-        80,
-        140
+        495,
+        380,
+        75,
+        150
       ],
       "row": 3,
       "position": 6
@@ -358,10 +424,10 @@
     {
       "id": "row3_space_7",
       "coordinates": [
-        650,
-        520,
-        80,
-        140
+        580,
+        380,
+        75,
+        150
       ],
       "row": 3,
       "position": 7
@@ -369,10 +435,10 @@
     {
       "id": "row3_space_8",
       "coordinates": [
-        730,
-        520,
-        80,
-        140
+        665,
+        380,
+        75,
+        150
       ],
       "row": 3,
       "position": 8
@@ -380,10 +446,10 @@
     {
       "id": "row3_space_9",
       "coordinates": [
-        810,
-        520,
-        80,
-        140
+        750,
+        380,
+        75,
+        150
       ],
       "row": 3,
       "position": 9
@@ -391,13 +457,332 @@
     {
       "id": "row3_space_10",
       "coordinates": [
-        890,
-        520,
-        80,
-        140
+        835,
+        380,
+        75,
+        150
       ],
       "row": 3,
       "position": 10
+    },
+    {
+      "id": "row3_space_11",
+      "coordinates": [
+        920,
+        380,
+        75,
+        150
+      ],
+      "row": 3,
+      "position": 11
+    },
+    {
+      "id": "row3_space_12",
+      "coordinates": [
+        1005,
+        380,
+        75,
+        150
+      ],
+      "row": 3,
+      "position": 12
+    },
+    {
+      "id": "row3_space_13",
+      "coordinates": [
+        1090,
+        380,
+        75,
+        150
+      ],
+      "row": 3,
+      "position": 13
+    },
+    {
+      "id": "row4_space_1",
+      "coordinates": [
+        100,
+        550,
+        85,
+        130
+      ],
+      "row": 4,
+      "position": 1
+    },
+    {
+      "id": "row4_space_2",
+      "coordinates": [
+        197,
+        550,
+        85,
+        130
+      ],
+      "row": 4,
+      "position": 2
+    },
+    {
+      "id": "row4_space_3",
+      "coordinates": [
+        294,
+        550,
+        85,
+        130
+      ],
+      "row": 4,
+      "position": 3
+    },
+    {
+      "id": "row4_space_4",
+      "coordinates": [
+        391,
+        550,
+        85,
+        130
+      ],
+      "row": 4,
+      "position": 4
+    },
+    {
+      "id": "row4_space_5",
+      "coordinates": [
+        488,
+        550,
+        85,
+        130
+      ],
+      "row": 4,
+      "position": 5
+    },
+    {
+      "id": "row4_space_6",
+      "coordinates": [
+        585,
+        550,
+        85,
+        130
+      ],
+      "row": 4,
+      "position": 6
+    },
+    {
+      "id": "row4_space_7",
+      "coordinates": [
+        682,
+        550,
+        85,
+        130
+      ],
+      "row": 4,
+      "position": 7
+    },
+    {
+      "id": "row4_space_8",
+      "coordinates": [
+        779,
+        550,
+        85,
+        130
+      ],
+      "row": 4,
+      "position": 8
+    },
+    {
+      "id": "row4_space_9",
+      "coordinates": [
+        876,
+        550,
+        85,
+        130
+      ],
+      "row": 4,
+      "position": 9
+    },
+    {
+      "id": "row4_space_10",
+      "coordinates": [
+        973,
+        550,
+        85,
+        130
+      ],
+      "row": 4,
+      "position": 10
+    },
+    {
+      "id": "row4_space_11",
+      "coordinates": [
+        1070,
+        550,
+        85,
+        130
+      ],
+      "row": 4,
+      "position": 11
+    },
+    {
+      "id": "left_side_space_1",
+      "coordinates": [
+        15,
+        250,
+        50,
+        40
+      ],
+      "row": "left",
+      "position": 1
+    },
+    {
+      "id": "left_side_space_2",
+      "coordinates": [
+        15,
+        295,
+        50,
+        40
+      ],
+      "row": "left",
+      "position": 2
+    },
+    {
+      "id": "left_side_space_3",
+      "coordinates": [
+        15,
+        340,
+        50,
+        40
+      ],
+      "row": "left",
+      "position": 3
+    },
+    {
+      "id": "left_side_space_4",
+      "coordinates": [
+        15,
+        385,
+        50,
+        40
+      ],
+      "row": "left",
+      "position": 4
+    },
+    {
+      "id": "left_side_space_5",
+      "coordinates": [
+        15,
+        430,
+        50,
+        40
+      ],
+      "row": "left",
+      "position": 5
+    },
+    {
+      "id": "left_side_space_6",
+      "coordinates": [
+        15,
+        475,
+        50,
+        40
+      ],
+      "row": "left",
+      "position": 6
+    },
+    {
+      "id": "left_side_space_7",
+      "coordinates": [
+        15,
+        520,
+        50,
+        40
+      ],
+      "row": "left",
+      "position": 7
+    },
+    {
+      "id": "left_side_space_8",
+      "coordinates": [
+        15,
+        565,
+        50,
+        40
+      ],
+      "row": "left",
+      "position": 8
+    },
+    {
+      "id": "right_side_space_1",
+      "coordinates": [
+        1215,
+        250,
+        50,
+        40
+      ],
+      "row": "right",
+      "position": 1
+    },
+    {
+      "id": "right_side_space_2",
+      "coordinates": [
+        1215,
+        295,
+        50,
+        40
+      ],
+      "row": "right",
+      "position": 2
+    },
+    {
+      "id": "right_side_space_3",
+      "coordinates": [
+        1215,
+        340,
+        50,
+        40
+      ],
+      "row": "right",
+      "position": 3
+    },
+    {
+      "id": "right_side_space_4",
+      "coordinates": [
+        1215,
+        385,
+        50,
+        40
+      ],
+      "row": "right",
+      "position": 4
+    },
+    {
+      "id": "right_side_space_5",
+      "coordinates": [
+        1215,
+        430,
+        50,
+        40
+      ],
+      "row": "right",
+      "position": 5
+    },
+    {
+      "id": "right_side_space_6",
+      "coordinates": [
+        1215,
+        475,
+        50,
+        40
+      ],
+      "row": "right",
+      "position": 6
+    },
+    {
+      "id": "right_side_space_7",
+      "coordinates": [
+        1215,
+        520,
+        50,
+        40
+      ],
+      "row": "right",
+      "position": 7
     }
   ]
 }

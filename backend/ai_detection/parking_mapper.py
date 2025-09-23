@@ -46,63 +46,108 @@ class ParkingMapper:
         return False
     
     def define_parking_spaces_manual(self, video_width: int = 1280, video_height: int = 720):
-        """Manually define parking spaces for the video based on visual analysis"""
+        """Manually define parking spaces for the video based on user count of ~78 spaces"""
         self.video_width = video_width
         self.video_height = video_height
         
         # Clear existing spaces
         self.parking_spaces = []
         
-        # Based on analysis of the parking lot video (1280x720)
-        # Define parking spaces from left to right, top to bottom
+        # Based on user's count of approximately 78 spaces
+        # Define more accurate parking spaces across multiple rows
         
-        # Row 1 (Top row) - approximately 15 spaces
-        row1_y = 100  # Top of first row
-        row1_height = 180  # Height of parking spaces
-        space_width = 80  # Average width per space
+        # Row 1 (Top/Far row) - approximately 18 spaces (smaller due to perspective)
+        row1_y = 80   # Top of first row
+        row1_height = 120  # Smaller height due to distance
+        space_width_row1 = 65  # Smaller width due to perspective
         
-        for i in range(15):
-            x = 50 + (i * space_width)
-            if x + space_width <= video_width - 50:  # Don't go beyond video edge
+        for i in range(18):
+            x = 40 + (i * (space_width_row1 + 5))
+            if x + space_width_row1 <= video_width - 40:
                 space = {
                     'id': f'row1_space_{i+1}',
-                    'coordinates': [x, row1_y, space_width, row1_height],
+                    'coordinates': [x, row1_y, space_width_row1, row1_height],
                     'row': 1,
                     'position': i + 1
                 }
                 self.parking_spaces.append(space)
         
-        # Row 2 (Middle row) - approximately 12 spaces
-        row2_y = 320  # Middle row position
-        row2_height = 160
+        # Row 2 (Upper middle row) - approximately 16 spaces
+        row2_y = 220  # Second row position
+        row2_height = 140
+        space_width_row2 = 70
         
-        for i in range(12):
-            x = 100 + (i * space_width + 10)  # Slightly offset
-            if x + space_width <= video_width - 100:
+        for i in range(16):
+            x = 50 + (i * (space_width_row2 + 8))
+            if x + space_width_row2 <= video_width - 50:
                 space = {
                     'id': f'row2_space_{i+1}',
-                    'coordinates': [x, row2_y, space_width, row2_height],
+                    'coordinates': [x, row2_y, space_width_row2, row2_height],
                     'row': 2,
                     'position': i + 1
                 }
                 self.parking_spaces.append(space)
         
-        # Row 3 (Bottom row) - approximately 10 spaces
-        row3_y = 520  # Bottom row position  
-        row3_height = 140
+        # Row 3 (Lower middle row) - approximately 15 spaces
+        row3_y = 380  # Third row position
+        row3_height = 150
+        space_width_row3 = 75
         
-        for i in range(10):
-            x = 150 + (i * space_width + 20)  # More offset for perspective
-            if x + space_width <= video_width - 150:
+        for i in range(15):
+            x = 70 + (i * (space_width_row3 + 10))
+            if x + space_width_row3 <= video_width - 70:
                 space = {
                     'id': f'row3_space_{i+1}',
-                    'coordinates': [x, row3_y, space_width, row3_height],
+                    'coordinates': [x, row3_y, space_width_row3, row3_height],
                     'row': 3,
                     'position': i + 1
                 }
                 self.parking_spaces.append(space)
         
-        print(f"Defined {len(self.parking_spaces)} parking spaces")
+        # Row 4 (Bottom/Near row) - approximately 14 spaces (larger due to perspective)
+        row4_y = 550  # Bottom row position  
+        row4_height = 130
+        space_width_row4 = 85  # Larger width due to proximity
+        
+        for i in range(14):
+            x = 100 + (i * (space_width_row4 + 12))
+            if x + space_width_row4 <= video_width - 100:
+                space = {
+                    'id': f'row4_space_{i+1}',
+                    'coordinates': [x, row4_y, space_width_row4, row4_height],
+                    'row': 4,
+                    'position': i + 1
+                }
+                self.parking_spaces.append(space)
+        
+        # Additional side parking areas if visible
+        # Left side parking (if visible)
+        for i in range(8):
+            x = 15
+            y = 250 + (i * 45)
+            if y + 40 <= video_height - 50:
+                space = {
+                    'id': f'left_side_space_{i+1}',
+                    'coordinates': [x, y, 50, 40],
+                    'row': 'left',
+                    'position': i + 1
+                }
+                self.parking_spaces.append(space)
+        
+        # Right side parking (if visible)  
+        for i in range(7):
+            x = video_width - 65
+            y = 250 + (i * 45)
+            if y + 40 <= video_height - 50:
+                space = {
+                    'id': f'right_side_space_{i+1}',
+                    'coordinates': [x, y, 50, 40],
+                    'row': 'right',
+                    'position': i + 1
+                }
+                self.parking_spaces.append(space)
+        
+        print(f"Defined {len(self.parking_spaces)} parking spaces (target: ~78)")
         return self.parking_spaces
     
     def check_space_occupancy(self, frame: np.ndarray, space: Dict, 
