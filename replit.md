@@ -5,8 +5,11 @@ A React-based navigation application that provides Google Maps integration for r
 
 ## Project Architecture
 - **Frontend**: React 17 with Create React App
+- **Backend**: Flask API with Python 3
 - **UI Framework**: Chakra UI for components and styling
 - **Mapping**: Google Maps JavaScript API with React Google Maps API
+- **AI Detection**: OpenCV with MOG2 background subtraction and morphological analysis
+- **Database**: MongoDB with in-memory fallback for development
 - **Icons**: React Icons (FontAwesome)
 - **Animation**: Framer Motion
 
@@ -17,6 +20,9 @@ A React-based navigation application that provides Google Maps integration for r
 - Real-time route animation with smooth transitions
 - Autocomplete for location search
 - Responsive design with mobile-friendly interface
+- AI-powered parking space detection system
+- Visual parking lot analysis with annotated images showing detected cars and parking spaces
+- Real-time parking occupancy tracking (47 cars detected, 71 parking spaces mapped)
 
 ## Environment Setup
 - **Host**: 0.0.0.0 (configured for Replit proxy)
@@ -38,7 +44,19 @@ Configured for autoscale deployment with:
 - Build: `npm run build`
 - Serve: Static file serving of build folder on port 5000
 
-## Recent Changes (2025-09-16)
+## Recent Changes
+
+### 2025-10-02: Visual AI Detection Implementation
+- Added visual AI detection feature with annotated parking lot images
+- Backend API now returns base64-encoded annotated images showing:
+  - Yellow bounding boxes around detected cars with confidence scores
+  - Blue rectangles marking parking spaces with occupancy status
+- Frontend displays annotated images in ParkingDetectionTest component
+- Improved error handling for image encoding operations
+- Removed all emojis from codebase for cleaner code style
+- Fixed MongoDB connection handling with proper fallback mechanisms
+
+### 2025-09-16: Initial Setup
 - Imported from GitHub repository
 - Configured for Replit environment
 - Set up proper host binding and proxy support

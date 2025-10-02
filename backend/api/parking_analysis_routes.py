@@ -6,6 +6,7 @@ Combines video processing, car detection, and parking space mapping
 from flask import Blueprint, request, jsonify
 import os
 import cv2
+import base64
 from ai_detection.video_processor import VideoProcessor
 from ai_detection.parking_mapper import ParkingMapper
 from database.parking_database import parking_db
@@ -86,6 +87,13 @@ def analyze_parking_video():
         result_path = os.path.join('uploads', result_filename)
         cv2.imwrite(result_path, annotated_frame)
         
+        # Convert annotated image to base64 for frontend display
+        success, buffer = cv2.imencode('.jpg', annotated_frame)
+        if not success:
+            processor.close()
+            return jsonify({'error': 'Failed to encode annotated image'}), 500
+        annotated_image_base64 = base64.b64encode(buffer).decode('utf-8')
+        
         # ============ DATABASE OPERATIONS ============
         try:
             # Create or get parking lot
@@ -155,6 +163,7 @@ def analyze_parking_video():
             'car_count': len(detected_cars),
             'parking_analysis': occupancy_analysis,
             'annotated_image': result_filename,
+            'annotated_image_base64': annotated_image_base64,
             'detection_method': 'mog2_with_parking_mapping'
         })
         
