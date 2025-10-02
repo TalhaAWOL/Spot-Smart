@@ -30,7 +30,7 @@ def analyze_parking_video():
         if not os.path.exists(video_path):
             return jsonify({'error': f'Video file not found: {video_filename}'}), 404
         
-        processor = YOLOVideoProcessor(model_name='yolov8n.pt', confidence_threshold=0.35)
+        processor = YOLOVideoProcessor(model_name='yolo_nas_s.pt', confidence_threshold=0.35)
         
         results = processor.analyze_video_frame(video_path, frame_number)
         
@@ -50,19 +50,19 @@ def analyze_parking_video():
                 lot_data = parking_db.create_parking_lot(
                     name=lot_name,
                     location=lot_location,
-                    total_spaces=results['total_spaces']
+                    total_spaces=results['parking_analysis']['total_spaces']
                 )
                 lot_id = lot_data['lot_id']
                 print(f"Created new parking lot: {lot_id}")
             
             analysis_log_data = {
-                'total_spaces': results['total_spaces'],
-                'occupied_spaces': results['occupied_spaces'],
-                'available_spaces': results['free_spaces'],
+                'total_spaces': results['parking_analysis']['total_spaces'],
+                'occupied_spaces': results['parking_analysis']['occupied_spaces'],
+                'available_spaces': results['parking_analysis']['available_spaces'],
                 'detection_data': {
-                    'method': 'YOLO with COCO pretrained weights',
+                    'method': 'YOLO-NAS with COCO pretrained weights',
                     'confidence': 0.35,
-                    'car_count': results['cars_detected'],
+                    'car_count': results['car_count'],
                     'analysis_duration': 0,
                     'frame_analyzed': frame_number
                 }

@@ -6,7 +6,7 @@ from .yolo_detector import YOLOParkingDetector
 from .parking_spaces_config import PREDEFINED_PARKING_SPACES
 
 class YOLOVideoProcessor:
-    def __init__(self, model_name='yolov8n.pt', confidence_threshold=0.35):
+    def __init__(self, model_name='yolo_nas_s.pt', confidence_threshold=0.35):
         self.detector = YOLOParkingDetector(model_name, confidence_threshold)
         self.parking_spaces = PREDEFINED_PARKING_SPACES
     
@@ -35,14 +35,21 @@ class YOLOVideoProcessor:
         
         return {
             'success': True,
-            'total_spaces': analysis_results['total_spaces'],
+            'car_count': len(analysis_results['detected_cars']),
+            'parking_analysis': {
+                'total_spaces': analysis_results['total_spaces'],
+                'available_spaces': len(analysis_results['free_spaces']),
+                'occupied_spaces': len(analysis_results['occupied_spaces']),
+                'occupancy_rate': analysis_results['occupancy_rate']
+            },
+            'annotated_image_base64': annotated_base64,
+            'detection_method': 'YOLO-NAS with COCO pretrained weights',
             'free_spaces': len(analysis_results['free_spaces']),
             'occupied_spaces': len(analysis_results['occupied_spaces']),
             'partially_free_spaces': len(analysis_results['partially_free_spaces']),
-            'cars_detected': len(analysis_results['detected_cars']),
-            'occupancy_rate': analysis_results['occupancy_rate'],
-            'annotated_image': annotated_base64,
-            'detection_method': 'YOLO-NAS with COCO pretrained weights'
+            'free_space_list': [s['id'] for s in analysis_results['free_spaces']],
+            'occupied_space_list': [s['id'] for s in analysis_results['occupied_spaces']],
+            'partially_free_space_list': [s['id'] for s in analysis_results['partially_free_spaces']]
         }
     
     def analyze_image(self, image_path: str) -> Dict:

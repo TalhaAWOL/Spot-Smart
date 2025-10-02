@@ -5,10 +5,10 @@ A React-based navigation application that provides Google Maps integration for r
 
 ## Project Architecture
 - **Frontend**: React 17 with Create React App
-- **Backend**: Flask API with Python 3
+- **Backend**: Flask API with Python 3.10
 - **UI Framework**: Chakra UI for components and styling
 - **Mapping**: Google Maps JavaScript API with React Google Maps API
-- **AI Detection**: OpenCV with MOG2 background subtraction and morphological analysis
+- **AI Detection**: YOLO-NAS with COCO pretrained weights via Ultralytics, PyTorch 2.8.0 (CPU)
 - **Database**: MongoDB with in-memory fallback for development
 - **Icons**: React Icons (FontAwesome)
 - **Animation**: Framer Motion
@@ -46,15 +46,19 @@ Configured for autoscale deployment with:
 
 ## Recent Changes
 
-### 2025-10-02: Visual AI Detection Implementation
-- Added visual AI detection feature with annotated parking lot images
-- Backend API now returns base64-encoded annotated images showing:
-  - Yellow bounding boxes around detected cars with confidence scores
-  - Blue rectangles marking parking spaces with occupancy status
-- Frontend displays annotated images in ParkingDetectionTest component
-- Improved error handling for image encoding operations
-- Removed all emojis from codebase for cleaner code style
-- Fixed MongoDB connection handling with proper fallback mechanisms
+### 2025-10-02: YOLO-NAS Deep Learning Implementation
+- **Upgraded to YOLO-NAS**: Migrated from OpenCV MOG2 to YOLO-NAS deep learning model for superior accuracy
+- **COCO Pretrained Weights**: Uses COCO dataset weights for robust car detection (car, truck, bus, motorcycle classes)
+- **PyTorch Integration**: Installed PyTorch 2.8.0 CPU and Ultralytics for YOLO-NAS support
+- **Color-Coded Parking Spaces**: 
+  - Blue rectangles for free parking spaces
+  - Red rectangles for occupied spaces
+  - Yellow rectangles for partially occupied spaces
+- **71 Predefined Parking Spaces**: Configured parking lot grid with optimized overlap detection (IoU threshold)
+- **Proxy Configuration**: Fixed Replit connectivity with package.json proxy routing /api/* to localhost:3001
+- **Improved Detection Pipeline**: Enhanced parking occupancy analysis with confidence-based classification
+- **Base64 Image Encoding**: Annotated images returned to frontend for real-time display
+- **Database Integration**: Automated parking lot creation and availability logging to MongoDB/in-memory storage
 
 ### 2025-09-16: Initial Setup
 - Imported from GitHub repository
