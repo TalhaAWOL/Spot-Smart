@@ -30,7 +30,7 @@ def analyze_parking_video():
         if not os.path.exists(video_path):
             return jsonify({'error': f'Video file not found: {video_filename}'}), 404
         
-        processor = YOLOVideoProcessor(model_name='yolo_nas_s.pt', confidence_threshold=0.35)
+        processor = YOLOVideoProcessor(model_name='yolov8s.pt', confidence_threshold=0.35)
         
         results = processor.analyze_video_frame(video_path, frame_number)
         
@@ -60,7 +60,7 @@ def analyze_parking_video():
                 'occupied_spaces': results['parking_analysis']['occupied_spaces'],
                 'available_spaces': results['parking_analysis']['available_spaces'],
                 'detection_data': {
-                    'method': 'YOLO-NAS with COCO pretrained weights',
+                    'method': 'YOLOv8 with COCO pretrained weights',
                     'confidence': 0.35,
                     'car_count': results['car_count'],
                     'analysis_duration': 0,

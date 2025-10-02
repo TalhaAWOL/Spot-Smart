@@ -1,12 +1,12 @@
 import cv2
 import numpy as np
-from ultralytics import NAS
+from ultralytics import YOLO
 import os
 
 class YOLOParkingDetector:
-    def __init__(self, model_name='yolo_nas_s.pt', confidence_threshold=0.35):
+    def __init__(self, model_name='yolov8s.pt', confidence_threshold=0.35):
         self.confidence_threshold = confidence_threshold
-        self.model = NAS(model_name)
+        self.model = YOLO(model_name)
         
         self.car_classes = ['car', 'truck', 'bus', 'motorcycle']
         self.coco_car_indices = [2, 7, 5, 3]

@@ -8,7 +8,7 @@ A React-based navigation application that provides Google Maps integration for r
 - **Backend**: Flask API with Python 3.10
 - **UI Framework**: Chakra UI for components and styling
 - **Mapping**: Google Maps JavaScript API with React Google Maps API
-- **AI Detection**: YOLO-NAS with COCO pretrained weights via Ultralytics, PyTorch 2.8.0 (CPU)
+- **AI Detection**: YOLOv8 with COCO pretrained weights via Ultralytics, PyTorch 2.8.0 (CPU)
 - **Database**: MongoDB with in-memory fallback for development
 - **Icons**: React Icons (FontAwesome)
 - **Animation**: Framer Motion
@@ -46,10 +46,10 @@ Configured for autoscale deployment with:
 
 ## Recent Changes
 
-### 2025-10-02: YOLO-NAS Deep Learning Implementation
-- **Upgraded to YOLO-NAS**: Migrated from OpenCV MOG2 to YOLO-NAS deep learning model for superior accuracy
+### 2025-10-02: YOLOv8 Deep Learning Implementation
+- **Upgraded to YOLOv8**: Migrated from OpenCV MOG2 to YOLOv8 deep learning model for superior accuracy
 - **COCO Pretrained Weights**: Uses COCO dataset weights for robust car detection (car, truck, bus, motorcycle classes)
-- **PyTorch Integration**: Installed PyTorch 2.8.0 CPU and Ultralytics for YOLO-NAS support
+- **PyTorch Integration**: Installed PyTorch 2.8.0 CPU and Ultralytics for YOLOv8 support
 - **Color-Coded Parking Spaces**: 
   - Blue rectangles for free parking spaces
   - Red rectangles for occupied spaces
