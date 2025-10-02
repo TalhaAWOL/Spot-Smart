@@ -18,11 +18,19 @@ function ParkingDetectionTest() {
       let backendUrl;
       if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
         backendUrl = 'http://localhost:3001';
+      } else if (window.location.hostname.includes('replit')) {
+        // On Replit, each port has its own subdomain
+        // Add -3001 to the hostname to point to backend port
+        const hostname = window.location.hostname;
+        const newHostname = hostname.replace(/^([^.]+)/, '$1-3001');
+        backendUrl = `${window.location.protocol}//${newHostname}`;
       } else {
-        // For Replit and other cloud environments, try same origin first
-        backendUrl = window.location.origin.replace(':5000', ':3001');
+        // For other environments
+        backendUrl = `${window.location.protocol}//${window.location.hostname}:3001`;
       }
       
+      console.log('Frontend URL:', window.location.href);
+      console.log('Backend URL:', backendUrl);
       console.log('Fetching from:', `${backendUrl}/api/parking/analyze-video`);
       
       const response = await fetch(`${backendUrl}/api/parking/analyze-video`, {
