@@ -28,13 +28,13 @@ class MongoDBManager:
             
             # Test connection
             self.client.admin.command('ping')
-            logger.info(f"✅ Connected to MongoDB: {self.database_name}")
+            logger.info(f"Connected to MongoDB: {self.database_name}")
             
             # Initialize collections
             self.init_collections()
             
         except Exception as e:
-            logger.error(f"❌ MongoDB connection failed: {e}")
+            logger.error(f"MongoDB connection failed: {e}")
             # Fall back to in-memory storage for development
             self.db = None
     
@@ -70,10 +70,10 @@ class MongoDBManager:
             self.db.availability_logs.create_index("lot_id")
             self.db.availability_logs.create_index([("lot_id", 1), ("timestamp", -1)])
             
-            logger.info("✅ Database indexes created successfully")
+            logger.info("Database indexes created successfully")
             
         except Exception as e:
-            logger.error(f"❌ Error creating indexes: {e}")
+            logger.error(f"Error creating indexes: {e}")
     
     def get_collection(self, collection_name):
         """Get a specific collection"""

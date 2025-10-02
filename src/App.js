@@ -427,7 +427,7 @@ function App() {
             <Heading size="md" mb={2}>Step-by-Step Directions</Heading>
 
             <VStack spacing={2} align="center">
-              <Text textAlign="center" dangerouslySetInnerHTML={{ __html: `🚗 ${steps[currentStepIndex].instructions} (${steps[currentStepIndex].distance})` }} />
+              <Text textAlign="center" dangerouslySetInnerHTML={{ __html: `${steps[currentStepIndex].instructions} (${steps[currentStepIndex].distance})` }} />
 
               <HStack>
                 <Button
@@ -435,7 +435,7 @@ function App() {
                   isDisabled={currentStepIndex === 0}
                   colorScheme="yellow"
                 >
-                  ◀️ Previous
+                  Previous
                 </Button>
 
                 <Button onClick={pauseResumeNavigation} colorScheme="blue">
@@ -447,7 +447,7 @@ function App() {
                   isDisabled={currentStepIndex === steps.length - 1}
                   colorScheme="yellow"
                 >
-                  Next ▶️
+                  Next
                 </Button>
               </HStack>
             </VStack>

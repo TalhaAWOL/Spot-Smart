@@ -30,15 +30,15 @@ class ParkingDatabase:
             if self.parking_lots:
                 result = self.parking_lots.insert_one(lot_data)
                 lot_data['_id'] = str(result.inserted_id)
-                logger.info(f"✅ Created parking lot: {lot_data['lot_id']}")
+                logger.info(f"Created parking lot: {lot_data['lot_id']}")
             else:
                 # Fallback for development without MongoDB
-                logger.warning("⚠️ MongoDB not available, using in-memory storage")
+                logger.warning("MongoDB not available, using in-memory storage")
                 
             return lot_data
             
         except Exception as e:
-            logger.error(f"❌ Error creating parking lot: {e}")
+            logger.error(f"Error creating parking lot: {e}")
             raise
     
     def get_parking_lot(self, lot_id: str) -> Optional[Dict]:
@@ -48,7 +48,7 @@ class ParkingDatabase:
                 return self.parking_lots.find_one({'lot_id': lot_id})
             return None
         except Exception as e:
-            logger.error(f"❌ Error getting parking lot: {e}")
+            logger.error(f"Error getting parking lot: {e}")
             return None
     
     def get_all_parking_lots(self) -> List[Dict]:
@@ -58,7 +58,7 @@ class ParkingDatabase:
                 return list(self.parking_lots.find({'status': 'active'}))
             return []
         except Exception as e:
-            logger.error(f"❌ Error getting all parking lots: {e}")
+            logger.error(f"Error getting all parking lots: {e}")
             return []
     
     # ============ PARKING SPOTS OPERATIONS ============
@@ -78,12 +78,12 @@ class ParkingDatabase:
             
             if self.parking_spots and created_spots:
                 result = self.parking_spots.insert_many(created_spots)
-                logger.info(f"✅ Created {len(created_spots)} parking spots for lot {lot_id}")
+                logger.info(f"Created {len(created_spots)} parking spots for lot {lot_id}")
             
             return created_spots
             
         except Exception as e:
-            logger.error(f"❌ Error creating parking spots: {e}")
+            logger.error(f"Error creating parking spots: {e}")
             raise
     
     def update_spot_occupancy(self, spot_id: str, is_occupied: bool, 
@@ -99,13 +99,13 @@ class ParkingDatabase:
                 )
                 
                 if result.modified_count > 0:
-                    logger.info(f"✅ Updated spot {spot_id} occupancy: {is_occupied}")
+                    logger.info(f"Updated spot {spot_id} occupancy: {is_occupied}")
                     return True
             
             return False
             
         except Exception as e:
-            logger.error(f"❌ Error updating spot occupancy: {e}")
+            logger.error(f"Error updating spot occupancy: {e}")
             return False
     
     def get_lot_spots(self, lot_id: str) -> List[Dict]:
@@ -115,7 +115,7 @@ class ParkingDatabase:
                 return list(self.parking_spots.find({'lot_id': lot_id, 'status': 'active'}))
             return []
         except Exception as e:
-            logger.error(f"❌ Error getting lot spots: {e}")
+            logger.error(f"Error getting lot spots: {e}")
             return []
     
     def get_available_spots(self, lot_id: str) -> List[Dict]:
@@ -129,7 +129,7 @@ class ParkingDatabase:
                 }))
             return []
         except Exception as e:
-            logger.error(f"❌ Error getting available spots: {e}")
+            logger.error(f"Error getting available spots: {e}")
             return []
     
     # ============ AVAILABILITY LOGS OPERATIONS ============
@@ -148,12 +148,12 @@ class ParkingDatabase:
             if self.availability_logs:
                 result = self.availability_logs.insert_one(log_data)
                 log_data['_id'] = str(result.inserted_id)
-                logger.info(f"✅ Logged availability analysis for lot {lot_id}")
+                logger.info(f"Logged availability analysis for lot {lot_id}")
             
             return log_data
             
         except Exception as e:
-            logger.error(f"❌ Error logging availability analysis: {e}")
+            logger.error(f"Error logging availability analysis: {e}")
             raise
     
     def get_recent_availability(self, lot_id: str, hours: int = 24) -> List[Dict]:
@@ -167,7 +167,7 @@ class ParkingDatabase:
                 }).sort('timestamp', -1))
             return []
         except Exception as e:
-            logger.error(f"❌ Error getting recent availability: {e}")
+            logger.error(f"Error getting recent availability: {e}")
             return []
     
     def get_occupancy_stats(self, lot_id: str, days: int = 7) -> Dict:
@@ -200,7 +200,7 @@ class ParkingDatabase:
             return result[0] if result else {}
             
         except Exception as e:
-            logger.error(f"❌ Error getting occupancy stats: {e}")
+            logger.error(f"Error getting occupancy stats: {e}")
             return {}
 
 # Global database instance

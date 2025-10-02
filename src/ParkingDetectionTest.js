@@ -55,7 +55,7 @@ function ParkingDetectionTest() {
     <Box p={6} maxW="600px" mx="auto" bg="white" borderRadius="lg" shadow="lg">
       <VStack spacing={4}>
         <Text fontSize="xl" fontWeight="bold" color="blue.600">
-          🚗 AI Parking Detection Test
+          AI Parking Detection Test
         </Text>
         
         <Button 

@@ -109,7 +109,7 @@ def analyze_parking_video():
                     total_spaces=occupancy_analysis['total_spaces']
                 )
                 lot_id = lot_data['lot_id']
-                print(f"✅ Created new parking lot: {lot_id}")
+                print(f"Created new parking lot: {lot_id}")
                 
                 # Create parking spots for the lot
                 spots_data = []
@@ -121,7 +121,7 @@ def analyze_parking_video():
                 
                 if spots_data:
                     parking_db.create_parking_spots(lot_id, spots_data)
-                    print(f"✅ Created {len(spots_data)} parking spots")
+                    print(f"Created {len(spots_data)} parking spots")
             
             # Log the availability analysis
             analysis_log_data = {
@@ -139,10 +139,10 @@ def analyze_parking_video():
             }
             
             log_result = parking_db.log_availability_analysis(lot_id, analysis_log_data)
-            print(f"✅ Logged availability analysis: {log_result.get('log_id', 'unknown')}")
+            print(f"Logged availability analysis: {log_result.get('log_id', 'unknown')}")
             
         except Exception as db_error:
-            print(f"⚠️ Database operation failed: {db_error}")
+            print(f"Database operation failed: {db_error}")
             # Continue execution even if database fails
         
         processor.close()
