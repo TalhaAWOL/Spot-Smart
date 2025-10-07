@@ -5,15 +5,21 @@ A React-based navigation application that provides Google Maps integration for r
 
 ## Project Architecture
 - **Frontend**: React 17 with Create React App
+- **Routing**: React Router DOM v6 for multi-page navigation
 - **Backend**: Flask API with Python 3.10
 - **UI Framework**: Chakra UI for components and styling
 - **Mapping**: Google Maps JavaScript API with React Google Maps API
 - **AI Detection**: YOLOv8 with COCO pretrained weights via Ultralytics, PyTorch 2.8.0 (CPU)
 - **Database**: MongoDB with in-memory fallback for development
-- **Icons**: React Icons (FontAwesome)
+- **Icons**: React Icons (FontAwesome, MdCarCrash)
 - **Animation**: Framer Motion
+- **Fonts**: Roboto font family
 
 ## Key Features
+- Multi-page application with landing page, vehicle details, and map navigation
+- Professional landing page with hero section and call-to-action
+- React Router navigation between pages
+- Responsive navbar with mobile drawer support
 - Interactive Google Maps interface
 - Route calculation between origin and destination
 - Step-by-step navigation with car simulation
@@ -23,7 +29,7 @@ A React-based navigation application that provides Google Maps integration for r
 - AI-powered parking space detection system with YOLOv8
 - Visual parking lot analysis with annotated images
 - Interactive parking lot markers on map with real-time statistics
-- Click parking lot markers to view: Cars Detected, Total Spots, Available Spots, Occupancy Rate
+- Click parking lot markers to view: Cars Detected, Total Spots, Available Spots
 - Real-time parking data updates after AI detection
 
 ## Environment Setup
@@ -47,6 +53,17 @@ Configured for autoscale deployment with:
 - Serve: Static file serving of build folder on port 5000
 
 ## Recent Changes
+
+### 2025-10-07: Landing Page Integration with React Router
+- **Multi-Page Application**: Restructured app with React Router for professional navigation
+- **Landing Page** (/): Hero section with video background, "GET STARTED" CTA button, app store links, features showcase
+- **Vehicle Details Page** (/vehicle): Vehicle information form with animated background, SKIP/NEXT navigation
+- **Navigation App** (/app): Google Maps interface with parking detection and navigation features
+- **Responsive Navbar**: Shared navigation component across all pages with mobile drawer support
+- **Navigation Flow**: Landing → Vehicle Details → Map App with seamless routing
+- **Component Structure**: Organized components in src/components/ directory (LandingPage.js, Navbar.js, VehicleDetails.js, NavigationApp.js)
+- **React Router DOM v6**: Installed and configured for client-side routing
+- **Roboto Font**: Added @fontsource/roboto for consistent typography
 
 ### 2025-10-07: Custom Parking Lot Marker with Navigation
 - **Exact Location**: Parking lot marker positioned at Sheridan College Davis Campus (43.65598098010094, -79.73852435397006)
