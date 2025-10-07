@@ -1,0 +1,472 @@
+import React from "react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  Button,
+  Image,
+  useBreakpointValue,
+  Grid,
+  Stack,
+  Input
+} from "@chakra-ui/react";
+import { FaApple, FaGooglePlay, FaFacebook, FaTwitter, FaInstagram, FaArrowUp } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
+
+const LandingPage = () => {
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
+  return (
+    <Box position="relative" minH="100vh" overflow="hidden">
+      <Box position="absolute" top={0} left={0} right={0} zIndex={10}>
+        <Navbar color="white" />
+      </Box>
+      <Box position="relative" height="60vh" width="100%" overflow="hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            opacity: 0.7,
+          }}
+        >
+          <source src="carsNight.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <Box
+          position="absolute"
+          top={0}
+          left={0}
+          width="100%"
+          height="100%"
+          bg="rgba(0, 0, 0, 0.3)"
+        />
+
+        <Flex
+          position="absolute"
+          top={0}
+          left={0}
+          width="100%"
+          height="100%"
+          direction="column"
+          align="center"
+          justify="center"
+          zIndex={1}
+          px={4}
+          mt={12}
+        >
+          <Heading
+            fontSize="4xl"
+            textAlign="center"
+            mb={4}
+            color="yellow.500"
+            textShadow="0 2px 4px rgba(0,0,0,0.5)"
+            fontWeight="500"
+            letterSpacing="0.05em"
+          >
+            PARKING JUST GOT A LOT SIMPLER
+          </Heading>
+
+          <Text
+            fontSize="xl"
+            color="white"
+            mb={8}
+            textShadow="0 1px 3px rgba(0,0,0,0.5)"
+          >
+            Book the Best Spaces for FREE!
+          </Text>
+
+          <Link to="/vehicle">
+            <Button
+              colorScheme="yellow"
+              size="lg"
+              px={12}
+              py={6}
+              borderRadius="full"
+              boxShadow="xl"
+              _hover={{
+                transform: "translateY(-2px)",
+                boxShadow: "2xl",
+              }}
+              transition="all 0.3s ease"
+              fontWeight="300"
+              letterSpacing="0.1em"
+            >
+              GET STARTED
+            </Button>
+          </Link>
+
+          <Flex gap={4} mt={6} mb={12}>
+            <Button
+              leftIcon={<FaApple />}
+              colorScheme="yellowAlpha"
+              bg="rgba(0, 0, 0, 0.7)"
+              _hover={{ bg: "rgba(0, 0, 0, 0.9)" }}
+            >
+              App Store
+            </Button>
+            <Button
+              leftIcon={<FaGooglePlay />}
+              colorScheme="blackAlpha"
+              bg="rgba(0, 0, 0, 0.7)"
+              _hover={{ bg: "rgba(0, 0, 0, 0.9)" }}
+            >
+              Google Play
+            </Button>
+          </Flex>
+        </Flex>
+      </Box>
+
+      <Box bg="gray.700" width="100%" minH="40vh" py={8}>
+        <Flex
+          direction={{ base: "column", md: "row" }}
+          align="center"
+          justify="space-between"
+          maxW="1200px"
+          mx="auto"
+          px={4}
+        >
+          <Box
+            flex="1"
+            pr={{ md: 8 }}
+            mb={{ base: 8, md: 0 }}
+            textAlign={{ base: "center", md: "left" }}
+          >
+            <Image
+              src="/map_routes.png"
+              alt="Parking map routes"
+              maxW="60%"
+              mb={4}
+              borderRadius="lg"
+              boxShadow="lg"
+            />
+          </Box>
+
+          <Box
+            flex="1"
+            pl={{ md: 8 }}
+            color="black"
+            textAlign={{ base: "center", md: "right" }}
+          >
+            <Heading
+              color="yellow.500"
+              fontWeight="300"
+              letterSpacing="0.05em"
+              fontSize="60px"
+              mb={4}
+            >
+              DISCOVER <br></br>AMAZING <br></br> SPACES
+            </Heading>
+            <Text mb={6} fontWeight="300" color="white">
+              Find parking anywhere, for now or for later
+              <br />
+              Compare prices & pick the place that's best for you
+            </Text>
+          </Box>
+        </Flex>
+
+        <Box bg="gray.700" width="100%" py={16}>
+          <Flex
+            direction={{ base: "column", md: "row" }}
+            align="center"
+            justify="space-between"
+            maxW="1200px"
+            mx="auto"
+            px={4}
+          >
+            {/* Text Content - Left Side */}
+            <Box
+              flex="1"
+              pr={{ md: 8 }}
+              color="white"
+              textAlign={{ base: "center", md: "left" }}
+              mb={{ base: 8, md: 0 }}
+            >
+              <Heading
+                color="yellow.500"
+                fontWeight="300"
+                letterSpacing="0.05em"
+                fontSize="60px"
+                mb={4}
+                lineHeight="1.1"
+              >
+                RESERVE
+                <br />& SAVE
+              </Heading>
+              <Text fontSize="xl" mb={6} fontWeight="300">
+                Book a space in just a few easy clicks
+                <br />
+                Book spaces for FREE!
+              </Text>
+            </Box>
+
+            {/* Image - Right Side */}
+            <Box
+              flex="1"
+              pl={{ md: 8 }}
+              display="flex"
+              justifyContent={{ base: "center", md: "flex-end" }}
+              alignItems="center"
+            >
+              <Image
+                src="/phone_img.png"
+                alt="Spot Smart app preview"
+                maxW={{ base: "80%", md: "60%" }}
+                w="auto"
+                h="auto"
+                maxH="500px"
+                borderRadius="lg"
+                boxShadow="lg"
+              />
+            </Box>
+          </Flex>
+        </Box>
+
+        <Flex
+          direction={{ base: "column", md: "row" }}
+          align="center"
+          justify="space-between"
+          maxW="1200px"
+          mx="auto"
+          px={4}
+          mt={12}
+        >
+          <Box
+            flex="1"
+            pr={{ md: 8 }}
+            mb={{ base: 8, md: 0 }}
+            textAlign={{ base: "center", md: "left" }}
+          >
+            <Image
+              src="/car_img.png"
+              alt="Parking map routes"
+              maxW="100%"
+              mb={4}
+              borderRadius="lg"
+              boxShadow="lg"
+            />
+          </Box>
+
+          <Box
+            flex="1"
+            pl={{ md: 8 }}
+            color="black"
+            textAlign={{ base: "center", md: "right" }}
+          >
+            <Heading
+              color="yellow.500"
+              fontWeight="300"
+              letterSpacing="0.05em"
+              fontSize="60px"
+              mb={4}
+            >
+              DRIVE <br></br>ARIVE <br></br> & PARK
+            </Heading>
+            <Text mb={6} fontWeight="300" color="white">
+              Book easily with a few clicks
+              <br />
+              Your space is waiting – pull in and go do your thing
+            </Text>
+          </Box>
+        </Flex>
+
+        <Box bg="gray.300" mt={16} py={16}>
+          <Flex
+            direction="column"
+            align="center"
+            maxW="1200px"
+            mx="auto"
+            px={4}
+            textAlign="center"
+            gap={6}
+          >
+            <Heading fontSize="3xl" color="gray.800">
+              Download the FREE Spot Smart App
+            </Heading>
+
+            <Text fontSize="lg" color="gray.600">
+              Tap into awesome parking anywhere on iOS & Android.
+            </Text>
+
+            <Text fontSize="md" color="gray.600" fontWeight="500">
+              Text yourself a link to download.
+            </Text>
+            <Input
+              placeholder="(xxx) xxx-xxxx"
+              size="lg"
+              textAlign="center"
+              borderRadius="full"
+              bg="white"
+              w={{ base: "60%", md: "auto" }}
+              _placeholder={{ color: "gray.400" }}
+            />
+            <Button
+              colorScheme="yellow"
+              size="lg"
+              borderRadius="full"
+              px={8}
+              w={{ base: "100%", md: "auto" }}
+            >
+              SEND LINK
+            </Button>
+
+            <Text fontSize="sm" color="gray.500">
+              Standard message rates may apply
+            </Text>
+          </Flex>
+        </Box>
+      </Box>
+
+      <Box bg="gray.800" color="white" pt={16} pb={8} px={4}>
+        <Flex direction="column" maxW="1200px" mx="auto">
+          <Flex
+            direction={{ base: "column", md: "row" }}
+            justify="space-between"
+            mb={12}
+          >
+            <Box mb={{ base: 8, md: 0 }}>
+              <Heading size="xl" mb={2}>
+                Sheridan Spot Smart
+              </Heading>
+              <Text color="gray.400">A PARKING APPLICATION FOR THE PEOPLE</Text>
+            </Box>
+
+            <Flex gap={4}>
+              <Button
+                leftIcon={<FaApple />}
+                colorScheme="blackAlpha"
+                bg="gray.700"
+                _hover={{ bg: "gray.600" }}
+              >
+                Download on the App Store
+              </Button>
+              <Button
+                leftIcon={<FaGooglePlay />}
+                colorScheme="blackAlpha"
+                bg="gray.700"
+                _hover={{ bg: "gray.600" }}
+              >
+                GET IT ON Google Play
+              </Button>
+            </Flex>
+          </Flex>
+
+          <Grid
+            templateColumns={{
+              base: "repeat(2, 1fr)",
+              md: "repeat(4, 1fr)",
+              lg: "repeat(5, 1fr)",
+            }}
+            gap={8}
+            mb={12}
+          >
+            <Box>
+              <Heading size="sm" mb={4} color="yellow.500">
+                GET TO KNOW US
+              </Heading>
+              <Stack spacing={2}>
+                <Link>About Us</Link>
+                <Link>How it Works</Link>
+                <Link>Press</Link>
+                <Link>Careers</Link>
+              </Stack>
+            </Box>
+
+            <Box>
+              <Heading size="sm" mb={4} color="yellow.500">
+                BETTER FOR BUSINESS
+              </Heading>
+              <Stack spacing={2}>
+                <Link>Spot Smart for Business</Link>
+                <Link>Our Platform</Link>
+                <Link>Affiliate Program</Link>
+                <Link>List Your Parking</Link>
+              </Stack>
+            </Box>
+
+            <Box>
+              <Heading size="sm" mb={4} color="yellow.500">
+                FIND US HERE
+              </Heading>
+              <Grid templateColumns="repeat(2, 1fr)" gap={2}>
+                <Link>Toronto Parking</Link>
+                <Link>Missisauga Parking</Link>
+                <Link>Brampton Parking</Link>
+                <Link>Vaughan Parking</Link>
+              </Grid>
+            </Box>
+
+            <Box>
+              <Heading size="sm" mb={4} color="yellow.500">
+                LET US HELP YOU
+              </Heading>
+              <Stack spacing={2}>
+                <Link>Visit Our Help Center</Link>
+                <Link>Summary of Services</Link>
+                <Link>FAQs</Link>
+              </Stack>
+            </Box>
+
+            <Box>
+              <Heading size="sm" mb={4} color="yellow.500">
+                WE’RE SOCIAL
+              </Heading>
+              <Stack spacing={2}>
+                <Link>Read Our Blog</Link>
+                <Flex gap={3}>
+                  <Link>
+                    <FaFacebook />
+                  </Link>
+                  <Link>
+                    <FaTwitter />
+                  </Link>
+                  <Link>
+                    <FaInstagram />
+                  </Link>
+                </Flex>
+                <Text mt={4} color="gray.400">
+                  CANADA
+                </Text>
+              </Stack>
+            </Box>
+          </Grid>
+
+          <Flex
+            direction={{ base: "column", md: "row" }}
+            justify="space-between"
+            align="center"
+            borderTop="1px solid"
+            borderColor="gray.700"
+            pt={8}
+          >
+            <Text color="gray.400" mb={{ base: 4, md: 0 }}>
+              Sheridan Spot Smart ©2025, All Rights Reserved.
+            </Text>
+
+            <Flex gap={4}>
+              <Link to="/terms">Terms of Use for Motorists</Link>
+              <Link to="/privacy">Privacy Policy</Link>
+            </Flex>
+
+            <Button
+              variant="ghost"
+              mt={{ base: 4, md: 0 }}
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              rightIcon={<FaArrowUp />}
+            >
+              TOP
+            </Button>
+          </Flex>
+        </Flex>
+      </Box>
+    </Box>
+  );
+};
+
+export default LandingPage;
