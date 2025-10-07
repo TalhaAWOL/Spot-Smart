@@ -62,6 +62,11 @@ function ParkingDetectionTest() {
           console.error('No annotated_image_base64 in response');
           setError('Backend did not return annotated image');
         }
+        
+        // Refresh parking lot markers on the map
+        if (window.refreshParkingLots) {
+          window.refreshParkingLots();
+        }
       } else {
         setError(data.error || 'Detection failed');
       }

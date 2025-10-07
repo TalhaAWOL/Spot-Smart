@@ -23,6 +23,7 @@ import {
 } from '@react-google-maps/api'
 import { useRef, useState } from 'react'
 import ParkingDetectionTest from './ParkingDetectionTest'
+import ParkingLotMarkers from './ParkingLotMarkers'
 
 const center = { lat: 48.8584, lng: 2.2945 }
 
@@ -365,6 +366,7 @@ function App() {
           {directionsResponse && (
             <DirectionsRenderer directions={directionsResponse} />
           )}
+          <ParkingLotMarkers map={map} />
         </GoogleMap>
       </Box>
 
