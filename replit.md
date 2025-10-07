@@ -48,12 +48,15 @@ Configured for autoscale deployment with:
 
 ## Recent Changes
 
-### 2025-10-07: Interactive Parking Lot Map Markers
-- **Map Integration**: Added interactive parking lot markers on Google Maps
-- **Real-time Statistics**: Click markers to view detection stats (Cars Detected, Total Spots, Available Spots, Occupancy Rate)
+### 2025-10-07: Custom Parking Lot Marker with Navigation
+- **Exact Location**: Parking lot marker positioned at 7899 McLaughlin Rd, Brampton, ON L6Y 5H9 (43.7315, -79.7624)
+- **Map Center**: Application now opens centered at Sheridan College location instead of Paris
+- **Custom Popup**: Clicking marker displays parking lot image with real-time statistics
+- **Start Navigation**: Yellow button in popup auto-fills origin (10 Caboose Street) and destination, then calculates route
+- **Default Origin**: Origin field pre-populated with "10 Caboose Street Brampton, ON L7A 5B1"
+- **Parking Lot Image**: Custom lotimage.png showing AI-detected cars and parking spaces
 - **Auto-refresh**: Parking lot statistics update automatically after running AI detection
 - **In-Memory Storage**: Implemented fallback storage for development when MongoDB unavailable
-- **API Endpoint**: Created /api/parking/lots endpoint for parking lot data with coordinates
 
 ### 2025-10-02: YOLOv8 Deep Learning Implementation
 - **Upgraded to YOLOv8**: Migrated from OpenCV MOG2 to YOLOv8 deep learning model for superior accuracy
