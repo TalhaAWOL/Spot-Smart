@@ -131,6 +131,15 @@ function App() {
     setCurrentStepIndex((prev) => (prev > 0 ? prev-1: prev))
   }
 
+  async function handleStartNavigationFromMarker(destination) {
+    // Set default origin and destination
+    originRef.current.value = '10 Caboose Street Brampton, ON L7A 5B1';
+    destiantionRef.current.value = destination;
+    
+    // Calculate the route
+    await calculateRoute();
+  }
+
   function startNavigation() {
     if (!window.google || !directionsResponse || !map) {
       console.error("Google Maps API is not loaded or not available.");
@@ -366,7 +375,7 @@ function App() {
           {directionsResponse && (
             <DirectionsRenderer directions={directionsResponse} />
           )}
-          <ParkingLotMarkers map={map} />
+          <ParkingLotMarkers map={map} onStartNavigation={handleStartNavigationFromMarker} />
         </GoogleMap>
       </Box>
 
@@ -382,7 +391,7 @@ function App() {
         <HStack spacing={2} justifyContent='space-between'>
           <Box flexGrow={1}>
             <Autocomplete>
-              <Input type='text' placeholder='Origin' ref={originRef} />
+              <Input type='text' placeholder='Origin' ref={originRef} defaultValue='10 Caboose Street Brampton, ON L7A 5B1' />
             </Autocomplete>
           </Box>
           <Box flexGrow={1}>
