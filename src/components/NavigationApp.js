@@ -385,11 +385,14 @@ function App() {
       <Box
         p={4}
         borderRadius='lg'
-        m={4}
+        mt='80px'
+        mx={4}
+        mb={4}
         bgColor='white'
         shadow='base'
         minW='container.md'
-        zIndex='1'
+        zIndex='1001'
+        position='relative'
       >
         <HStack spacing={2} justifyContent='space-between'>
           <Box flexGrow={1}>
