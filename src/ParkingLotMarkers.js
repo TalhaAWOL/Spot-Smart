@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Marker, InfoWindow } from '@react-google-maps/api';
-import { Box, Text, VStack, HStack, Image } from '@chakra-ui/react';
+import { Box, Text, VStack, HStack, Image, Button } from '@chakra-ui/react';
 
-function ParkingLotMarkers({ map }) {
+function ParkingLotMarkers({ map, onStartNavigation }) {
   const [parkingLots, setParkingLots] = useState([]);
   const [selectedLot, setSelectedLot] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -81,7 +81,7 @@ function ParkingLotMarkers({ map }) {
                     borderColor="gray.200"
                   >
                     <Image 
-                      src="/api/placeholder/250/150" 
+                      src="/lotimage.png" 
                       alt="Parking lot"
                       w="100%"
                       h="120px"
@@ -132,6 +132,20 @@ function ParkingLotMarkers({ map }) {
                       Last updated: {new Date(lot.stats.last_updated).toLocaleTimeString()}
                     </Text>
                   )}
+                  
+                  <Button
+                    colorScheme="yellow"
+                    size="md"
+                    width="100%"
+                    onClick={() => {
+                      if (onStartNavigation) {
+                        onStartNavigation('7899 McLaughlin Rd, Brampton, ON L6Y 5H9');
+                        setSelectedLot(null);
+                      }
+                    }}
+                  >
+                    Start Navigation
+                  </Button>
                 </VStack>
               </Box>
             </InfoWindow>

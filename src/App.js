@@ -25,7 +25,7 @@ import { useRef, useState } from 'react'
 import ParkingDetectionTest from './ParkingDetectionTest'
 import ParkingLotMarkers from './ParkingLotMarkers'
 
-const center = { lat: 48.8584, lng: 2.2945 }
+const center = { lat: 43.7315, lng: -79.7624 } // Sheridan College, Brampton
 
 function App() {
   const { isLoaded } = useJsApiLoader({
