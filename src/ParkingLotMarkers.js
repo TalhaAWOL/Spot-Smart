@@ -39,13 +39,14 @@ function ParkingLotMarkers({ map, onStartNavigation }) {
     };
   }, []);
 
-  const parkingIcon = {
+  // Create icon only when Google Maps API is loaded
+  const parkingIcon = window.google?.maps ? {
     url: '/sherlogo.png',
     scaledSize: new window.google.maps.Size(60, 60),
     anchor: new window.google.maps.Point(30, 60),
-  };
+  } : null;
 
-  if (loading || !parkingLots.length) {
+  if (loading || !parkingLots.length || !parkingIcon) {
     return null;
   }
 
