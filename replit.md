@@ -49,8 +49,8 @@ Configured for autoscale deployment with:
 ## Recent Changes
 
 ### 2025-10-07: Custom Parking Lot Marker with Navigation
-- **Exact Location**: Parking lot marker positioned at 7899 McLaughlin Rd, Brampton, ON L6Y 5H9 (43.7315, -79.7624)
-- **Map Center**: Application now opens centered at Sheridan College location instead of Paris
+- **Exact Location**: Parking lot marker positioned at Sheridan College Davis Campus (43.65598098010094, -79.73852435397006)
+- **Map Center**: Application now opens centered at Sheridan College Davis Campus location
 - **Custom Marker Icon**: Replaced blue pin with Sheridan College logo (sherlogo.png) showing iconic blue "S" sculpture
 - **Custom Popup**: Clicking marker displays parking lot image with real-time statistics
 - **Start Navigation**: Yellow button in popup auto-fills origin (10 Caboose Street) and destination, then calculates route
