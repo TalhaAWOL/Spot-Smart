@@ -22,8 +22,9 @@ import {
   DirectionsRenderer,
 } from '@react-google-maps/api'
 import { useRef, useState } from 'react'
-import ParkingDetectionTest from './ParkingDetectionTest'
-import ParkingLotMarkers from './ParkingLotMarkers'
+import ParkingDetectionTest from '../ParkingDetectionTest'
+import ParkingLotMarkers from '../ParkingLotMarkers'
+import Navbar from './Navbar'
 
 const center = { lat: 43.65598098010094, lng: -79.73852435397006 } // Sheridan College, Brampton
 
@@ -309,54 +310,56 @@ function App() {
   
 
   return (
-    <Flex
-      position='relative'
-      flexDirection='column'
-      alignItems='center'
-      h='100vh'
-      w='100vw'
-    >
+    <>
+      <Navbar color="white" />
       <Flex
-        position='absolute'
-        top={4}
-        left={4}
-        right={4}
-        justifyContent='space-between'
-        zIndex='1'
-        pointerEvents='none' 
+        position='relative'
+        flexDirection='column'
+        alignItems='center'
+        h='100vh'
+        w='100vw'
       >
-        <VStack 
-          alignItems='flex-start'
-          bg='whiteAlpha.800'
-          p={3}
-          borderRadius='md'
-          spacing={0}
+        <Flex
+          position='absolute'
+          top={16}
+          left={4}
+          right={4}
+          justifyContent='space-between'
+          zIndex='1'
+          pointerEvents='none' 
         >
-          <Heading as="h1" size="lg" color={"yellow.500"} lineHeight="1">Sheridan</Heading>
-          <Heading as="h1" size="lg" color={"yellow.500"} lineHeight="1">Spot</Heading>
-          <Heading as="h1" size="lg" color={"yellow.500"} lineHeight="1">Smart</Heading>
-        </VStack>
-        
-        <VStack spacing={2} pointerEvents="auto">
-          <Heading as="h1" size="lg" color={"yellow.500"} lineHeight="1">AIM-IT</Heading>
-          <Button 
-            size="sm" 
-            colorScheme="blue" 
-            onClick={(e) => {
-              e.stopPropagation()
-              setShowAITest(!showAITest)
-            }}
-            bg='whiteAlpha.900'
-            color="blue.600"
-            cursor="pointer"
-            pointerEvents="auto"
-            _hover={{ bg: 'blue.100' }}
-            fontWeight="bold"
+          <VStack 
+            alignItems='flex-start'
+            bg='whiteAlpha.800'
+            p={3}
+            borderRadius='md'
+            spacing={0}
           >
-            {showAITest ? 'Hide' : 'Test'} AI Detection
-          </Button>
-        </VStack>
-      </Flex>
+            <Heading as="h1" size="lg" color={"yellow.500"} lineHeight="1">Sheridan</Heading>
+            <Heading as="h1" size="lg" color={"yellow.500"} lineHeight="1">Spot</Heading>
+            <Heading as="h1" size="lg" color={"yellow.500"} lineHeight="1">Smart</Heading>
+          </VStack>
+          
+          <VStack spacing={2} pointerEvents="auto">
+            <Heading as="h1" size="lg" color={"yellow.500"} lineHeight="1">AIM-IT</Heading>
+            <Button 
+              size="sm" 
+              colorScheme="blue" 
+              onClick={(e) => {
+                e.stopPropagation()
+                setShowAITest(!showAITest)
+              }}
+              bg='whiteAlpha.900'
+              color="blue.600"
+              cursor="pointer"
+              pointerEvents="auto"
+              _hover={{ bg: 'blue.100' }}
+              fontWeight="bold"
+            >
+              {showAITest ? 'Hide' : 'Test'} AI Detection
+            </Button>
+          </VStack>
+        </Flex>
 
       <Box position='absolute' left={0} top={0} h='100%' w='100%'>
         <GoogleMap
@@ -484,6 +487,7 @@ function App() {
       )}
       
     </Flex>
+    </>
   )
 }
 
