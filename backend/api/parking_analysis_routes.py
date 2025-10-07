@@ -50,7 +50,8 @@ def analyze_parking_video():
                 lot_data = parking_db.create_parking_lot(
                     name=lot_name,
                     location=lot_location,
-                    total_spaces=results['parking_analysis']['total_spaces']
+                    total_spaces=results['parking_analysis']['total_spaces'],
+                    coordinates={'lat': 43.5890, 'lng': -79.6441}
                 )
                 lot_id = lot_data['lot_id']
                 print(f"Created new parking lot: {lot_id}")
@@ -135,3 +136,51 @@ def test_parking_analysis():
         
     except Exception as e:
         return jsonify({'error': f'Test failed: {str(e)}'}), 500
+
+@parking_analysis_bp.route('/api/parking/lots', methods=['GET'])
+def get_parking_lots_with_stats():
+    """Get all parking lots with their latest detection statistics"""
+    try:
+        lots = parking_db.get_all_parking_lots()
+        
+        lots_with_stats = []
+        for lot in lots:
+            recent_logs = parking_db.get_recent_availability(lot['lot_id'], hours=24)
+            
+            latest_stats = None
+            if recent_logs and len(recent_logs) > 0:
+                latest_log = recent_logs[0]
+                latest_stats = {
+                    'total_spaces': latest_log.get('total_spaces', lot.get('total_spaces', 0)),
+                    'occupied_spaces': latest_log.get('occupied_spaces', 0),
+                    'available_spaces': latest_log.get('available_spaces', 0),
+                    'occupancy_rate': latest_log.get('occupancy_rate', 0),
+                    'cars_detected': latest_log.get('detection_data', {}).get('car_count', 0),
+                    'last_updated': latest_log.get('timestamp', '').isoformat() if latest_log.get('timestamp') else None
+                }
+            else:
+                latest_stats = {
+                    'total_spaces': lot.get('total_spaces', 0),
+                    'occupied_spaces': 0,
+                    'available_spaces': lot.get('total_spaces', 0),
+                    'occupancy_rate': 0,
+                    'cars_detected': 0,
+                    'last_updated': None
+                }
+            
+            lot_data = {
+                'lot_id': lot['lot_id'],
+                'name': lot['name'],
+                'location': lot['location'],
+                'coordinates': lot.get('coordinates', {'lat': 43.5890, 'lng': -79.6441}),
+                'stats': latest_stats
+            }
+            lots_with_stats.append(lot_data)
+        
+        return jsonify({
+            'success': True,
+            'parking_lots': lots_with_stats
+        })
+        
+    except Exception as e:
+        return jsonify({'error': f'Failed to fetch parking lots: {str(e)}'}), 500
