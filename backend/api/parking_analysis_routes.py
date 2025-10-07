@@ -51,7 +51,7 @@ def analyze_parking_video():
                     name=lot_name,
                     location=lot_location,
                     total_spaces=results['parking_analysis']['total_spaces'],
-                    coordinates={'lat': 43.7315, 'lng': -79.7624}
+                    coordinates={'lat': 43.65598098010094, 'lng': -79.73852435397006}
                 )
                 lot_id = lot_data['lot_id']
                 print(f"Created new parking lot: {lot_id}")
@@ -172,7 +172,7 @@ def get_parking_lots_with_stats():
                 'lot_id': lot['lot_id'],
                 'name': lot['name'],
                 'location': lot['location'],
-                'coordinates': lot.get('coordinates', {'lat': 43.7315, 'lng': -79.7624}),
+                'coordinates': lot.get('coordinates', {'lat': 43.65598098010094, 'lng': -79.73852435397006}),
                 'stats': latest_stats
             }
             lots_with_stats.append(lot_data)

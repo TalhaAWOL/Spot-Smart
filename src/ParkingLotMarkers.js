@@ -116,12 +116,6 @@ function ParkingLotMarkers({ map, onStartNavigation }) {
                           {lot.stats.available_spaces}
                         </Text>
                       </HStack>
-                      <HStack justify="space-between">
-                        <Text fontSize="sm" color="gray.600">Occupancy Rate:</Text>
-                        <Text fontSize="sm" fontWeight="semibold" color="red.600">
-                          {(lot.stats.occupancy_rate * 100).toFixed(0)}%
-                        </Text>
-                      </HStack>
                     </VStack>
                   </Box>
                   
