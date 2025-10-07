@@ -20,9 +20,11 @@ A React-based navigation application that provides Google Maps integration for r
 - Real-time route animation with smooth transitions
 - Autocomplete for location search
 - Responsive design with mobile-friendly interface
-- AI-powered parking space detection system
-- Visual parking lot analysis with annotated images showing detected cars and parking spaces
-- Real-time parking occupancy tracking (47 cars detected, 71 parking spaces mapped)
+- AI-powered parking space detection system with YOLOv8
+- Visual parking lot analysis with annotated images
+- Interactive parking lot markers on map with real-time statistics
+- Click parking lot markers to view: Cars Detected, Total Spots, Available Spots, Occupancy Rate
+- Real-time parking data updates after AI detection
 
 ## Environment Setup
 - **Host**: 0.0.0.0 (configured for Replit proxy)
@@ -45,6 +47,13 @@ Configured for autoscale deployment with:
 - Serve: Static file serving of build folder on port 5000
 
 ## Recent Changes
+
+### 2025-10-07: Interactive Parking Lot Map Markers
+- **Map Integration**: Added interactive parking lot markers on Google Maps
+- **Real-time Statistics**: Click markers to view detection stats (Cars Detected, Total Spots, Available Spots, Occupancy Rate)
+- **Auto-refresh**: Parking lot statistics update automatically after running AI detection
+- **In-Memory Storage**: Implemented fallback storage for development when MongoDB unavailable
+- **API Endpoint**: Created /api/parking/lots endpoint for parking lot data with coordinates
 
 ### 2025-10-02: YOLOv8 Deep Learning Implementation
 - **Upgraded to YOLOv8**: Migrated from OpenCV MOG2 to YOLOv8 deep learning model for superior accuracy
