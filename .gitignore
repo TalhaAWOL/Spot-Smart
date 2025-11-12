@@ -28,10 +28,10 @@ android/
 *.tsbuildinfo
 
 # Local environment files
-.env
-.env.*
-.env.local
-.env*.local
+#.env
+#.env.*
+#.env.local
+#.env*.local
 
 #Backend (Python / Flask)
 __pycache__/
