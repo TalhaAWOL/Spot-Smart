@@ -1,1 +1,1 @@
-# AIM-IT Sheridan Spot Smart
+# AIM-IT Spot Smart
